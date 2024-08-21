@@ -2,10 +2,11 @@
  * @NScriptType UserEventScript
  * @NApiVersion 2.0
  */
-Define([], function(){
+define([], function(){
 return {
     afterSubmit: function(context){
         log.debug ('hello world');
         
     }
-}});
+}
+});
