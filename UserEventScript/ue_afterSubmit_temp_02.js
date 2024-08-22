@@ -4,7 +4,7 @@
  */
 // JSDec tags: annotations
 
-//example with entry function outside the return statement
+//example with entry function before the return statement
 
 define([],   // define statement
     function() {   // call back function
