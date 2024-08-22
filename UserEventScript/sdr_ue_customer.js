@@ -5,8 +5,8 @@
 define([], function(){
 return {
     afterSubmit: function(context){
-        log.debug ('hello world');
-        
+        //log.debug ('hello world');
+              
     }
 }
 });
