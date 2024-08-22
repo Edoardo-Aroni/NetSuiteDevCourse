@@ -2,7 +2,7 @@
  * @NApiVersion 2.0
  * @NScriptType UserEventScript
  */
-// JSDec tags: annotations
+// JSDoc tags: annotations
 
 //example with entry function inside the return statement
 
