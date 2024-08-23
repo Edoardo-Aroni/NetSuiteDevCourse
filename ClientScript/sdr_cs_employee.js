@@ -4,7 +4,7 @@
  */
 
 define([], function(){
-    function fieldChange(context){
+    function fieldChanged(context){
         var employee = context.currentRecord; // for client side script we use currentRecord instead of newRecord
 
         // add a filter to check which field the user is manipulating
@@ -24,8 +24,37 @@ define([], function(){
 
     }
 
+    function validateField(context){
+        var employee = context.currentRecord;
+
+        if(context.fieldId == 'custentity_sdr_employee_code'){
+            var empCode = employee.getValue('custentity_sdr_employee_code');
+
+            if(empCode == 'x') {
+                alert('Invalid Employee Code Value. Please try again');
+                return false;  // to prevent the user to save the record
+            } 
+        }    
+        return true; // allow the user to save the value
+    }
+
+    function saveRecord(context){
+        var employee = context.currentRecord;
+
+        var empCode = employee.getValue('custentity_sdr_employee_code');
+        if(empCode == 'x') {
+            alert('Invalid Employee Code Value. Please try again');
+            return false;  // to prevent the user to save the record
+        }
+
+        return true; // allow the user to save the value
+
+    }
+
     return{
-        fieldChange : fieldChange
+        fieldChanged : fieldChanged,
+        validateField: validateField,
+        saveRecord   : saveRecord
     };
 
 
