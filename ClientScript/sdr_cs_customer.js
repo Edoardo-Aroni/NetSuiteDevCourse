@@ -17,6 +17,19 @@ define([], function() {
             }
         }
     }
+    function validateField(context){
+        var customer = context.currentRecord;
+        if(context.fieldId == 'custentity_sdr_coupon_code'){
+            var couponCode = customer.getValue('custentity_sdr_coupon_code');
+            var applyCoupon = customer.getValue('custentity_sdr_apply_coupon');
+            if(applyCoupon && couponCode.length != 5 ){
+                alert('The coupon code length is not 5 characters. Please try again.');
+                return false;
+            }
+            
+        }
+        return true;
+    }
     function saveRecord(context){
         var customer = context.currentRecord;
         var applyCoupon = customer.getValue('custentity_sdr_apply_coupon');
@@ -28,7 +41,8 @@ define([], function() {
         return true;
     }
     return {
-        fieldChanged: fieldChanged,
-        saveRecord:   saveRecord
+        fieldChanged:   fieldChanged,
+        validateField:  validateField,
+        saveRecord:     saveRecord
     };
 });
