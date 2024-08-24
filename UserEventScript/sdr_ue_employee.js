@@ -14,19 +14,21 @@ return {
         var employee = context.newRecord;
         var empCode = employee.getValue('custentity_sdr_employee_code');
         var supervisorName = employee.getText('supervisor');
-        var supervisorId   = employee.getValue('supervisor');
+       
 
         log.debug('Employee Code', empCode);
-        log.debug('Supervisor ID', supervisorId);
-        log.debug('Supervisor Name', supervisorName);
+               log.debug('Supervisor Name', supervisorName);
 
         if (context.type == context.UserEventType.CREATE) {
-            var phoneCall = record.create({
-                type: record.Type.PHONE_CALL
+            var phoneCall = record.create({  //this create the record in memory
+                type: record.Type.PHONE_CALL,
+                defaultValues :{
+                    customform: -150   //use the standard Call form
+                }
             });
             phoneCall.setValue('title','Call HR for benefits');
             phoneCall.setValue('assigned', employee.id);
-            phoneCall.save();
+            phoneCall.save();  //this create the record in the database
         }
 
 
