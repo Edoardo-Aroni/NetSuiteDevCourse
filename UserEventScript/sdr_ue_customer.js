@@ -3,11 +3,13 @@
  * @NScriptType UserEventScript
  */
 
-define(['N/record'], 
+define(['N/record', 'N/email', 'N/runtime'], 
     /**
-     * @param {record} record 
+     * @param {record} record
+     * @param {email} email
+     * @param {runtime} runtime
      */
-    function(record){
+    function(record, email, runtime){
     function afterSubmit(context) {
         var customer            = context.newRecord;
         var customerId          = customer.getValue('entityid');
@@ -23,7 +25,10 @@ define(['N/record'],
         if(context.type == context.UserEventType.CREATE){
 
             var task = record.create({
-                type: record.Type.TASK
+                type: record.Type.TASK,
+                defaultValues: {
+                    customform: -120
+                }
 
             });
 
@@ -34,6 +39,13 @@ define(['N/record'],
                 task.setValue('assigned', customerSalesRep );  
             };
             task.save();
+            var currentUserId = runtime.getCurrentUser().id;
+            email.send({
+                author: currentUserId,
+                recipients: customer.id,
+                subject: 'Welcome to SuiteDreams',
+                body: 'Welcome! We are glad for you to be a customer of SuiteDreams.' 
+            })
         }
     };
     return{
