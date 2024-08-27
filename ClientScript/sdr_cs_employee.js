@@ -33,6 +33,42 @@ define([], function(){
 
     }
 
+    function lineInit(context){
+        var employee = context.currentRecord;
+
+        if(context.sublistId == 'recmachcustrecord_sdr_perf_subordinate'){
+            var reviewType = employee.getCurrentSublistValue({
+                sublistId: 'recmachcustrecord_sdr_perf_subordinate',
+                fieldId: 'custrecord_sdr_perf_review_type'
+
+            });
+
+            if(!reviewType){
+                employee.setCurrentSublistValue({
+                   sublistId: 'recmachcustrecord_sdr_perf_subordinate',
+                   fieldId: 'custrecord_sdr_perf_review_type',
+                   value: 1  //salary change
+                });
+
+            }
+        }
+    }
+
+    function validateLine(context){
+        var employee = context.currentRecord;
+        if(context.sublistId == 'recmachcustrecord_sdr_perf_subordinate'){
+            var increaseAmount = employee.getCurrentSublistValue({
+                sublistId: 'recmachcustrecord_sdr_perf_subordinate',
+                fieldId: 'custrecord_sdr_perf_sal_incr_amt'
+            });
+            if(increaseAmount > 5000) {
+                alert('Salary increase amount cannot be greater than 5,000');
+                return false;
+            }
+        }
+        return true;
+    }
+
 
     function fieldChanged(context){
         var employee = context.currentRecord; // for client side script we use currentRecord instead of newRecord
@@ -83,6 +119,8 @@ define([], function(){
 
     return{
         pageInit:pageInit,
+        lineInit: lineInit,
+        validateLine: validateLine,
         fieldChanged : fieldChanged,
         validateField: validateField,
         saveRecord   : saveRecord
