@@ -4,6 +4,36 @@
  */
 
 define([], function(){
+
+    function pageInit(context){
+        var employee = context.currentRecord;
+
+        var perfRevCount = employee.getLineCount({
+            sublistId: 'recmachcustrecord_sdr_perf_subordinate'
+        });
+
+        var notes = 'This employee has ' + perfRevCount + ' performance reviews.\n';
+
+        var fRatingCount = 0;
+        for (var i=0; i<perfRevCount; i++) {
+            var ratingCode = employee.getSublistValue({
+                sublistId :'recmachcustrecord_sdr_perf_subordinate',
+                fieldId : 'custrecord_sdr_perf_rating_code',
+                line: i
+            });
+
+            if(ratingCode == 'F'){
+                fRatingCount += 1;
+            }
+        }
+
+        notes += 'This employee has ' + fRatingCount + ' F-rates reviews';
+
+        alert(notes);
+
+    }
+
+
     function fieldChanged(context){
         var employee = context.currentRecord; // for client side script we use currentRecord instead of newRecord
 
@@ -52,6 +82,7 @@ define([], function(){
     }
 
     return{
+        pageInit:pageInit,
         fieldChanged : fieldChanged,
         validateField: validateField,
         saveRecord   : saveRecord
