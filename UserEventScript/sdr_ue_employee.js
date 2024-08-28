@@ -29,6 +29,41 @@ return {
             phoneCall.setValue('title','Call HR for benefits');
             phoneCall.setValue('assigned', employee.id);
             phoneCall.save();  //this create the record in the database
+
+            var event = record.create({
+                type: record.Type.CALENDAR_EVENT,
+                isDynamic: true
+            });
+
+            event.setValue('title', 'Welcome meeting with supervisor');
+
+            event.selectNewLine({
+                sublistId: 'attendee'
+            });
+            event.setCurrentSublistValue({
+                sublistId: 'attendee',
+                fieldId: 'attendee',
+                value: employee.id
+            });
+            event.commitLine({
+                sublistId: 'attendee'
+            });
+
+
+            event.selectNewLine({
+                sublistId: 'attendee'
+            });
+            event.setCurrentSublistValue({
+                sublistId: 'attendee',
+                fieldId: 'attendee',
+                value: employee.getValue('supervisor')
+            });
+            event.commitLine({
+                sublistId: 'attendee'
+            });
+
+            event.save();
+
         }
 
 
