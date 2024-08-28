@@ -65,6 +65,7 @@ define([], function(){
                 alert('Salary increase amount cannot be greater than 5,000');
                 return false;
             }
+            
         }
         return true;
     }

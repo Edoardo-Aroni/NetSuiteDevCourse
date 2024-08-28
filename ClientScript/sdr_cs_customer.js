@@ -4,6 +4,37 @@
  */
 
 define([], function() {
+
+    function pageInit(context){
+        var customer = context.currentRecord;
+        var prodPrefCount = customer.getLineCount({
+            sublistId: 'recmachcustrecord_sdr_prod_pref_customer'
+        });
+
+        alert('This customer has ' + prodPrefCount + ' product preferences.');
+    }
+
+    function lineInit(context){
+        var customer = context.currentRecord;
+        if(context.sublistId == 'recmachcustrecord_sdr_prod_pref_customer'){
+            var preferredQty = customer.getCurrentSublistValue({
+                sublistId: 'recmachcustrecord_sdr_prod_pref_customer',
+                fieldId: 'custrecord_sdr_prod_pref_qty'
+            });
+            if(!preferredQty){
+                customer.setCurrentSublistValue({
+                    sublistId: 'recmachcustrecord_sdr_prod_pref_customer',
+                    fieldId: 'custrecord_sdr_prod_pref_qty',
+                    value: 1
+                });
+            }
+
+
+        }
+
+
+    }
+
     function fieldChanged(context){
     var customer = context.currentRecord;
         if(context.fieldId == 'custentity_sdr_apply_coupon') {
@@ -41,6 +72,8 @@ define([], function() {
         return true;
     }
     return {
+        pageInit:       pageInit,
+        lineInit:       lineInit,
         fieldChanged:   fieldChanged,
         validateField:  validateField,
         saveRecord:     saveRecord
