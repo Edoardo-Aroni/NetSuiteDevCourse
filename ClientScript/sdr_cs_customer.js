@@ -81,13 +81,27 @@ define([], function() {
             alert('The coupon code length is not 5 characters. Please try again.');
             return false;
         }
-        return true;
 
         var prodPrefCount = customer.getLineCount({
             sublistId: 'recmachcustrecord_sdr_prod_pref_customer'
         });
 
-        
+        var totPrefQty = 0;
+
+        for(var i = 0; i < prodPrefCount; i++){
+            var prefQty = customer.getSublistValue({
+                sublistId: 'recmachcustrecord_sdr_prod_pref_customer',
+                fieldId: 'custrecord_sdr_prod_pref_qty',
+                line: i
+            });
+            totPrefQty += parseInt(prefQty);
+
+            if(totPrefQty > 25 ){
+                alert('The total preferred quantity across all product preferences has exceed the limit of 25.');
+                return false;
+            } 
+        }
+        return true;
     }
 
     return {
