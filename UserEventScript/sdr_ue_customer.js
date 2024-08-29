@@ -10,6 +10,20 @@ define(['N/record', 'N/email', 'N/runtime'],
      * @param {runtime} runtime
      */
     function(record, email, runtime){
+    function beforeSubmit(context){
+        var customer = context.newRecord;
+        if(context.type == context.UserEventType.CREATE){
+            var customerSalesrep = customer.getValue('salesrep');
+            if(!customerSalesrep){
+                throw 'Save failed. Please make sure that the Sales Rep field is not empty.';
+                return false;
+            }
+            return true;
+        }
+
+    }
+
+    
     function afterSubmit(context) {
         var customer            = context.newRecord;
         var customerId          = customer.getValue('entityid');
@@ -47,8 +61,9 @@ define(['N/record', 'N/email', 'N/runtime'],
                 body: 'Welcome! We are glad for you to be a customer of SuiteDreams.' 
             })
         }
-    };
-    return{
-        afterSubmit: afterSubmit
     }
+    return{
+        beforeSubmit: beforeSubmit,
+        afterSubmit: afterSubmit
+    };
 });
