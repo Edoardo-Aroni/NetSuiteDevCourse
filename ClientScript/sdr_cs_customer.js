@@ -35,6 +35,21 @@ define([], function() {
 
     }
 
+    function validateLine(context){
+        var customer = context.currentRecord;
+        if(context.sublistId == 'recmachcustrecord_sdr_prod_pref_customer'){
+            var preferredQty = customer.getCurrentSublistValue({
+                sublistId: 'recmachcustrecord_sdr_prod_pref_customer',
+                fieldId: 'custrecord_sdr_prod_pref_qty'
+            });
+            if(parseInt(preferredQty) > 10 ){
+                alert('You have selected a preferred quantity that exceeds the limit of 10.');
+                return false;
+            }
+        }
+        return true;
+    }
+
     function fieldChanged(context){
     var customer = context.currentRecord;
         if(context.fieldId == 'custentity_sdr_apply_coupon') {
@@ -74,6 +89,7 @@ define([], function() {
     return {
         pageInit:       pageInit,
         lineInit:       lineInit,
+        validateLine:   validateLine,
         fieldChanged:   fieldChanged,
         validateField:  validateField,
         saveRecord:     saveRecord
