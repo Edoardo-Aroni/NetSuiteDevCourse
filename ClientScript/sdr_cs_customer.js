@@ -28,11 +28,7 @@ define([], function() {
                     value: 1
                 });
             }
-
-
         }
-
-
     }
 
     function validateLine(context){
@@ -47,7 +43,7 @@ define([], function() {
                 return false;
             }
         }
-        return true;
+        return true; 
     }
 
     function fieldChanged(context){
@@ -63,6 +59,7 @@ define([], function() {
             }
         }
     }
+
     function validateField(context){
         var customer = context.currentRecord;
         if(context.fieldId == 'custentity_sdr_coupon_code'){
@@ -72,10 +69,10 @@ define([], function() {
                 alert('The coupon code length is not 5 characters. Please try again.');
                 return false;
             }
-            
         }
         return true;
     }
+
     function saveRecord(context){
         var customer = context.currentRecord;
         var applyCoupon = customer.getValue('custentity_sdr_apply_coupon');
@@ -85,7 +82,14 @@ define([], function() {
             return false;
         }
         return true;
+
+        var prodPrefCount = customer.getLineCount({
+            sublistId: 'recmachcustrecord_sdr_prod_pref_customer'
+        });
+
+        
     }
+
     return {
         pageInit:       pageInit,
         lineInit:       lineInit,
