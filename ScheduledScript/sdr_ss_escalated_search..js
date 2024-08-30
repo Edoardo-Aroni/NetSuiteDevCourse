@@ -53,6 +53,28 @@ define(['N/search'],
             end: 9
         });
 
+        for (var i=0; i < searchResults.length; i++){
+            var subject = searchResults[i].getValue('title');
+            var assignedTo = searchResults[i].getText('assigned');
+            var status = searchResults[i].getText('status');
+            var department = searchResults[i].getText({
+                name: 'department',
+                join: 'employee'
+            });
+            var jobTitle = searchResults[i].getValue({
+                name: 'title',
+                join: 'employee'
+            });
+
+            log.debug('Case Info', 'Subject : ' + subject + '\n' +
+                                   'Assigned To : ' + assignedTo + '\n' +
+                                   'Status : ' + status + '\n' +
+                                   'Department : ' + department + '\n' +
+                                   'Job Title : ' + jobTitle
+            );
+            
+        }
+
         }
         return{
             execute: execute
