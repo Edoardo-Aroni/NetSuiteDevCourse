@@ -11,7 +11,7 @@ define(['N/search'],
 
             var caseSearch = search.create({
                 type: search.Type.SUPPORT_CASE,
-                filter: [
+                filters: [
                     search.createFilter({
                         name: 'status',
                         operator: search.Operator.ANYOF,
@@ -48,7 +48,7 @@ define(['N/search'],
                 ]
             });
 
-        var searchResults = caseSearch.run().getRange()({
+        var searchResults = caseSearch.run().getRange({
             start: 0,
             end: 9
         });
