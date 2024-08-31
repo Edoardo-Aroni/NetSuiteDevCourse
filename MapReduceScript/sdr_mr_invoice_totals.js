@@ -1,5 +1,5 @@
 /**
- * @NApiVersion 2.0,
+ * @NApiVersion 2.0
  * @NScriptType MapReduceScript
  */
 
