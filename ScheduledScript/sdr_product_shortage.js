@@ -3,13 +3,14 @@
  * @NApiVersion 2.0
  */
 
-define(['N/search'],
+define(['N/search','N/record'],
     /**
      * 
      * @param {search} search 
+     * @param {record} record
      * @returns 
      */
-    function(search){
+    function(search, record){
         function execute(script){
 
             var prodShortageSearchObj = search.create({
@@ -71,7 +72,7 @@ define(['N/search'],
 
             for (var i=0; i< searchResults.length; i++){
                 var item = searchResults[i].getText('custrecord_sdr_prod_pref_item');
-                var customer = searchResults[i].getText('custrecord_sdr_prod_pref_customer');
+                var customer = searchResults[i].getValue('custrecord_sdr_prod_pref_customer');
                 var email = searchResults[i].getValue({
                     name: 'email',
                     join: 'custrecord_sdr_prod_pref_customer'
@@ -93,6 +94,19 @@ define(['N/search'],
                                                 'Preferred Qty: ' + prefQuantity + '\n' +
                                                 'Available: ' + available
                 );
+
+               if(parseInt(prefQuantity) > parseInt(available)) {
+                var supportCase = record.create({
+                    type: record.Type.SUPPORT_CASE,
+                    isDynamic: true
+                });
+                supportCase.setValue('title','Item low for customer ');
+                supportCase.setValue('company', customer);
+                supportCase.setValue('incomingmessage', 'This company prefers to purchase ' + prefQuantity + '\n' + 
+                                                        item + ' each time they create a sales order, but only' + '\n' + 
+                                                        available + ' are left in stock.');
+                supportCase.save();
+               }
             }
         }
         return{
