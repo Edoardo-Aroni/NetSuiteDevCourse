@@ -12,14 +12,17 @@ define(['n/search'],
     function(search){
         function execute(script){
 
-            var shortageProductSearch = search.load({
+            var prodShortageSearch = search.load({
                 id:'customsearch_sdr_prod_shortage'
             });
 
-            var searchResults = shortageProductSearch.run().getRange({
+            var searchResults = prodShortageSearch.run().getRange({
                 start: 0,
                 end: 9
+
             });
+
+
 
         }
         return{
