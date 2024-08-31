@@ -19,6 +19,7 @@ define(['N/search'],
             });
 
             return invSearch;
+        }
 
         function map(context){
             var searchResult = JSON.parse(context.value);
@@ -40,23 +41,22 @@ define(['N/search'],
 
             log.debug('Total', 'Customer ' + context.key + '\n' +
                                'Total : ' + total);
-
         }
 
         function summarize(summary){
             log.audit('Number of queues', summary.concurrency);
 
-            log.error('Input error', summary.inputSummary.error);
+            if (summary.inputSummary.error) {
+                log.error('Input error', summary.inputSummary.error);
+            }
 
-            summary.reduceSummary.errors.iterators().each(function(code, message){
+            summary.reduceSummary.errors.iterator().each(function(code, message){
                 log.error('Reduce Error: ' + code, message);
                 return true;
             });
         }
 
-
-        }
-        return{
+        return {
             getInputData: getInputData,
             map: map,
             reduce: reduce,
