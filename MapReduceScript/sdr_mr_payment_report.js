@@ -27,7 +27,7 @@ define(['N/search'],
             log.debug('Resulting Value:', searchResult.values);
 
             var customer = searchResult.values.entity.text;
-            var status = searchResult.values.statusref;
+            var status = searchResult.values.statusref.value;
             var amount = searchResults.values.amountpaid;
 
             context.write({
@@ -57,7 +57,7 @@ define(['N/search'],
                                    'Undeposited Total: ' + unDepositedTotal);
         }
         function summarize(summary){
-            
+
             log.audit('Usage Consumed', summary.usage);
             log.audit('Number of Queues used', summary.concurrency);
             log.audit('Number of Yields done', summary.yields);
