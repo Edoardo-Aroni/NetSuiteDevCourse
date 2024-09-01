@@ -12,14 +12,18 @@ define(['N/search'],
     function(search){
 
         function getInputData(){
-            var paymtSearch = search.load({
+        //     var paymtSearch = search.load({
+        //         id: 'customsearch_sdr_payments'
+        //     });
+        //     return paymtSearch;
+
+            return search.load({
                 id: 'customsearch_sdr_payments'
             });
-            return paymtSearch;
         }
 
         function map(context){
-
+            var searchResult = JSON.parse(context.value);
         }
         return {
             getInputData: getInputData,
