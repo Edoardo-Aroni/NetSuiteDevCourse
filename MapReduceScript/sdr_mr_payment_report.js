@@ -28,7 +28,7 @@ define(['N/search'],
 
             var customer = searchResult.values.entity.text;
             var status = searchResult.values.statusref.value;
-            var amount = searchResults.values.amountpaid;
+            var amount = searchResult.values.amountpaid;
 
             context.write({
                 key: customer,
