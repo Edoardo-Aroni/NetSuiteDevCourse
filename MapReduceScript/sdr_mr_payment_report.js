@@ -24,10 +24,25 @@ define(['N/search'],
 
         function map(context){
             var searchResult = JSON.parse(context.value);
+            log.debug('Resulting Value:', searchResult.values);
+
+            var customer = searchResult.values.entity.text;
+            var status = searchResult.values.statusref.text;
+            var amount = searchResults.values.amountpaid;
+
+            context.write({
+                key: customer,
+                value: status && amount
+            });
+
+        }
+        function reduce(context){
+
         }
         return {
             getInputData: getInputData,
-            map: map
+            map: map,
+            reduce: reduce
         }
     }
 );
