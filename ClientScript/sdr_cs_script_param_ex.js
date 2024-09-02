@@ -16,17 +16,20 @@ define(['N/runtime'],
                var recordType = script.getParameter({
                 name: 'custscript_sdr_save_record_type'
                });
-               var confirmation = confirm('Click OK if are sure you would like to confirm your change' + '\n' +
-                                          'for this ' + recordType + '. Click Cancel to continue editing.');
-               if(confirmation) {
-                return true;
-               } else {
-                return false;
-               }
-               
+               var displaySaveConfirmation = script.getParameter({
+                name: 'custscript_sdr_save_confirmation'
+               });
 
+               if (displaySaveConfirmation) {
+                    var confirmation = confirm('Click OK if are sure you would like to confirm your change' + '\n' +
+                    'for this ' + recordType + '. Click Cancel to continue editing.');
+                    if(confirmation) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+               } else {return true;}                                                                                                         
             }
-        }
-        
+        }    
     }
 );
