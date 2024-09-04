@@ -30,7 +30,12 @@ define(['N/record','N/runtime'],
             });
 
             employee.setValue('comments',notes);
-            employee.save();
+            employeeID = employee.save();
+
+            if(!employeeId){
+                return 'failed';
+            }
+            return 'success';
 
         }
         return {
