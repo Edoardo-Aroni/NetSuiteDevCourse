@@ -29,7 +29,7 @@ define(['N/record','N/runtime'],
                 id: employeeId
             });
 
-            employee.setValue('comment','notes');
+            employee.setValue('comments',notes);
             employee.save();
 
         }
