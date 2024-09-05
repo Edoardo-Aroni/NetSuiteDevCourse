@@ -115,9 +115,10 @@ define(['N/record', 'N/email', 'N/runtime','N/task'],
             // pass the customer id as parameter to the task object
             mrTask.params = ({
                 'custscript_sdr_customer_id': customer.id
-            })
+            });
+            log.debug(customer.id);
             // use the submit() method to execute the map/reduce script
-            var mrTaskId = mrTask.submit();
+           mrTask.submit();
 
         }
     }

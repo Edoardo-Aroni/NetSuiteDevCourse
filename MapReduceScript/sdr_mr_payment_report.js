@@ -35,7 +35,7 @@ define(['N/search', 'N/runtime'],
         var paymentSearch = search.create({
             type: search.Type.TRANSACTION,  
             filters:[
-                ['type', search.Operator.ANYOF, 'CustPymt'], 'and'
+                ['type', search.Operator.ANYOF, 'CustPymt'], 'and',
                 ['mainline', search.Operator.IS, true],'and',
                 ['entity',search.Operator.ANYOF, customerId]
             ],
