@@ -3,13 +3,14 @@
  * @NScriptType UserEventScript
  */
 
-define(['N/record', 'N/email', 'N/runtime'], 
+define(['N/record', 'N/email', 'N/runtime','N/task'], 
     /**
      * @param {record} record
      * @param {email} email
      * @param {runtime} runtime
+     * @param {task} task
      */
-    function(record, email, runtime){
+    function(record, email, runtime, task){
     function beforeSubmit(context){
         var customer = context.newRecord;
         if(context.type == context.UserEventType.CREATE){
@@ -99,6 +100,15 @@ define(['N/record', 'N/email', 'N/runtime'],
             });
 
             event.save()
+            // calling map/reduce script to get the payment summary for the customer
+            var mrTask = task.create({
+                taskType: task.TaskType.MAP_REDUCE,
+                scriptId: 'customscript_sdr_payments',
+                deploymentId: '	customdeploy_sdr_mr_payments',
+                params:{ custscript_param1: 'custscript_sdr_customer_id'}
+            });
+
+            var mrTaskId = mrTask.submit();
 
         }
     }
