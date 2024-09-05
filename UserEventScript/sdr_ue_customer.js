@@ -3,7 +3,7 @@
  * @NScriptType UserEventScript
  */
 
-define(['N/record', 'N/email', 'N/runtime','N/task'], 
+define(['N/record', 'N/email', 'N/runtime','N/newTask'], 
     /**
      * @param {record} record
      * @param {email} email
@@ -36,23 +36,43 @@ define(['N/record', 'N/email', 'N/runtime','N/task'],
         log.debug('Customer SalesRep', customerSalesRep);
         log.debug('Customer Coupon Code', customerCouponCode);
 
+
+        // calling map/reduce script to get the payment summary for the customer
+
+            //create a newTask object for the map/reduce script
+            var mrTask = task.create({
+                taskType: task.TaskType.MAP_REDUCE
+            });
+            // set property values for the newTask objects
+            mrTask.scriptId = 'customscript_sdr_mr_payments';
+            mrTask.deploymentId = 'customdeploy_sdr_mr_payments';
+
+            // pass the customer id as parameter to the newTask object
+            mrTask.params = {
+                'custscript_sdr_customer_id': customer.id
+            };
+            //log.debug(customer.id);
+            // use the submit() method to execute the map/reduce script
+           mrTask.submit();
+
+
         if(context.type == context.UserEventType.CREATE){
 
-            var task = record.create({
-                type: record.Type.TASK,
+            var newTask = record.create({
+                type: record.Type.newTask,
                 defaultValues: {
                     customform: -120
                 }
 
             });
 
-            task.setValue('title','New Customer Follow-up');
-            task.setValue('priority', 'HIGH');
-            task.setValue('message', 'Please take care of this customer and follow-up with them soon.');
+            newTask.setValue('title','New Customer Follow-up');
+            newTask.setValue('priority', 'HIGH');
+            newTask.setValue('message', 'Please take care of this customer and follow-up with them soon.');
             if(!customerSalesRep) {
-                task.setValue('assigned', customerSalesRep );  
+                newTask.setValue('assigned', customerSalesRep );  
             };
-            task.save();
+            newTask.save();
             var currentUserId = runtime.getCurrentUser().id;
             email.send({
                 author: currentUserId,
@@ -102,24 +122,7 @@ define(['N/record', 'N/email', 'N/runtime','N/task'],
             event.save()
 
 
-            // calling map/reduce script to get the payment summary for the customer
-
-            //create a task object for the map/reduce script
-            var mrTask = task.create({
-                taskType: task.TaskType.MAP_REDUCE
-            });
-            // set property values for the task objects
-            mrTask.scriptId = 'customscript_sdr_mr_payments';
-            mrTask.deploymentId = '	customdeploy_sdr_mr_payments';
-
-            // pass the customer id as parameter to the task object
-            mrTask.params = ({
-                'custscript_sdr_customer_id': customer.id
-            });
-            log.debug(customer.id);
-            // use the submit() method to execute the map/reduce script
-           mrTask.submit();
-
+            
         }
     }
     return{
