@@ -24,8 +24,14 @@ define(['N/record','N/runtime'],
         var orderLineCount = salesOrder.getLineCount({
             sublistId: 'item'
         });
+         // get date in format dd/mm/yyyy
+        var day = orderDate.getDate();
+        var month = orderDate.getMonth() + 1; //month start from 0
+        var year = orderDate.getFullYear();
+        var dateOrder = day + '/' + month + '/' + year;
+
         // create notes variable
-        var notes = 'Last Order Date:      ' + orderDate + '\n' +
+        var notes = 'Last Order Date: ' + dateOrder + '\n' +
                     'Unique Items ordered: ' + orderLineCount;
         // get internal id for the customer on the sales order record
         var customerSalesOrder = salesOrder.getValue('entity');
@@ -38,6 +44,11 @@ define(['N/record','N/runtime'],
        customer.setValue('comments', notes);
        // save changes
        customer.save();
+
+       if (!customer.id) {
+        return 'FAILED';
+       }
+       return 'SUCCESS';
 
     }
     return {
