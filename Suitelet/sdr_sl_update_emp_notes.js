@@ -14,8 +14,8 @@ define(['N/ui/serverWidget'],
             var response = context.response;
 
             var form = serverWidget.createForm({
-                title: 'Update Employee Notes', //title displayed below the navigation bar
-                hideNavBar: true // hide the navigation bar menu
+                title: 'Update Employee Notes' //title displayed below the navigation bar
+                //hideNavBar: true // hide the navigation bar menu
             });
 
             var nameFld = form.addField({
@@ -36,7 +36,15 @@ define(['N/ui/serverWidget'],
                 label: 'Emp ID'
             });
 
-            form.addSubmitButton();
+            form.addSubmitButton('Continue');
+
+            nameFld.updateDisplayType({
+                displayType: serverWidget.FieldDisplayType.INLINE
+            });
+
+            empIdFld.updateDisplayType({
+                displayType: serverWidget.FieldDisplayType.HIDDEN
+            });
 
             response.writePage(form);
         }
