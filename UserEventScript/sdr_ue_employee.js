@@ -68,7 +68,7 @@ return {
         }
 
         redirect.toSuitelet({
-            script: 'customscript_sdr_sl_update_emp_notes',
+            scriptId: 'customscript_sdr_sl_update_emp_notes',
             deploymentId: 'customdeploy_sdr_sl_update_emp_notes',
             parameters:{
                 sdr_name:employee.getValue('entityid'),
