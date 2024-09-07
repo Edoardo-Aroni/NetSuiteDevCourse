@@ -2,39 +2,37 @@
  * @NApiVersion 2.0
  * @NScriptType Suitelet
  */
-
-define(['N/ui/serverWideget'], 
+define(['N/ui/serverWidget'], 
     /**
      * 
-     * @param {serverWideget} serverWideget 
+     * @param {serverWidget} serverWidget 
      * @returns 
      */
-    function(serverWideget){
+    function(serverWidget){
         function onRequest(context){
             var request = context.request;
             var response = context.response;
 
-
-            var form = serverWideget.createForm({
+            var form = serverWidget.createForm({
                 title: 'Update Employee Notes', //title displayed below the navigation bar
                 hideNavBar: true // hide the navigation bar menu
             });
 
             var nameFld = form.addField({
                 id:'custpage_sdr_emp_name',
-                type: serverWideget.FieldType.TEXT,
+                type: serverWidget.FieldType.TEXT,
                 label: 'Name'
             });
 
             var notesFld = form.addField({
                 id:'custpage_sdr_emp_notes',
-                type: serverWideget.FieldType.TEXTAREA,
+                type: serverWidget.FieldType.TEXTAREA,
                 label: 'Notes'
             });
 
             var empIdFld = form.addField({
                 id:'custpage_sdr_emp_emp_id',
-                type: serverWideget.FieldType.TEXT,
+                type: serverWidget.FieldType.TEXT,
                 label: 'Emp ID'
             });
 
@@ -46,3 +44,4 @@ define(['N/ui/serverWideget'],
             onRequest: onRequest
         };
     });
+
