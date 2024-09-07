@@ -13,6 +13,10 @@ define(['N/ui/serverWidget'],
             var request = context.request;
             var response = context.response;
 
+            var name = request.parameters.sdr_name;
+            var notes = request.parameters.sdr_notes;
+            var empId = request.parameters.sdr_empid;
+
             var form = serverWidget.createForm({
                 title: 'Update Employee Notes' //title displayed below the navigation bar
                 //hideNavBar: true // hide the navigation bar menu
@@ -37,6 +41,10 @@ define(['N/ui/serverWidget'],
             });
 
             form.addSubmitButton('Continue');
+
+            nameFld.defaultValue = name;
+            notesFld.defaultValue = notes;
+            empIdFld.defaultValue = empId;
 
             nameFld.updateDisplayType({
                 displayType: serverWidget.FieldDisplayType.INLINE
