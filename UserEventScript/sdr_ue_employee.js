@@ -2,12 +2,13 @@
  * @NScriptType UserEventScript
  * @NApiVersion 2.0
  */
-define(['N/record'], 
+define(['N/record','N/redirect'], 
 /**
  * @param {record} record  
+ * @param {redirect} redirect 
  */    
     
-function(record){
+function(record, redirect){
 return {
     afterSubmit: function(context){
         //log.debug ('hello world');
@@ -66,7 +67,15 @@ return {
 
         }
 
-
+        redirect.toSuitelet({
+            script: 'customscript_sdr_sl_update_emp_notes',
+            deploymentId: 'customdeploy_sdr_sl_update_emp_notes',
+            parameters:{
+                sdr_name:employee.getValue('entityid'),
+                sdr_notes: employee.getValue('comments'),
+                sdr_empid: employee.id
+            }
+        });
     }
 }
 });
