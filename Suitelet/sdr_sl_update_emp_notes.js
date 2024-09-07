@@ -75,6 +75,7 @@ define(['N/ui/serverWidget','N/record','N/redirect'],
                 });
            
         }
+    }
         return{
             onRequest: onRequest
         };
