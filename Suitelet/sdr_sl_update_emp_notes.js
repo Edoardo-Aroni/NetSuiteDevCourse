@@ -17,7 +17,7 @@ define(['N/ui/serverWidget','N/record','N/redirect'],
             if(request.method == 'GET') {
                 var name = request.parameters.sdr_name;
                 var notes = request.parameters.sdr_notes;
-                var empId = request.parameters.sdr_empid;
+                var empId = request.parameters.sdr_empId;
     
                 var form = serverWidget.createForm({
                     title: 'Update Employee Notes' //title displayed below the navigation bar
@@ -59,8 +59,8 @@ define(['N/ui/serverWidget','N/record','N/redirect'],
                 response.writePage(form);
 
             } else { // POST}
-                var empId = request.custpage_sdr_emp_id;
-                var notes = request.custpage_sdr_emp_notes;
+                var empId = request.parameters.custpage_sdr_emp_id;
+                var notes = request.parameters.custpage_sdr_emp_notes;
                 
                 var employee = record.load({
                     type: record.Type.EMPLOYEE,

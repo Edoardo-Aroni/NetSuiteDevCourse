@@ -73,7 +73,7 @@ return {
             parameters:{
                 sdr_name:employee.getValue('entityid'),
                 sdr_notes: employee.getValue('comments'),
-                sdr_empid: employee.id
+                sdr_empId: employee.id
             }
         });
     }
