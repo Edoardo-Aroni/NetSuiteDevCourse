@@ -15,6 +15,12 @@ define(['N/ui/serverWidget'],
             var request = context.request;
             var response = context.response;
 
+            //extract values from parameters
+
+            var salOrderNumb = request.parameters.custparam_sdr_sal_ord_num;
+            var customer = request.parameters.custparam_sdr_customer;
+            var salOrderTot =  request.parameters.custparam_sdr_sal_ord_total;
+
 
             //create base form
             var form = serverWidget.createForm({
@@ -27,7 +33,12 @@ define(['N/ui/serverWidget'],
                 type: serverWidget.FieldType.HELP,
                 label:'Please assign a price to the financing of this sales order, then Submit Financing'
             });
-            
+
+            var salOrderNumbFld = form.addField({
+                id:'custpage_sdr_sal_order_numb',
+                type: serverWidget.FieldType.TEXT,
+                label:'Sales Order #'
+            });
             
             var customerFld = form.addField({
                 id:'custpage_sdr_customer',
@@ -35,17 +46,11 @@ define(['N/ui/serverWidget'],
                 label:'Customer'
             });
 
-            var txnDateFld = form.addField({
-                id:'custpage_sdr_txn_date',
-                type: serverWidget.FieldType.DATE,
-                label:'Txn Date'
-            });
-
-            var salOrderNumbFld = form.addField({
-                id:'custpage_sdr_sal_order_numb',
-                type: serverWidget.FieldType.TEXT,
-                label:'Sales Order #'
-            });
+            // var txnDateFld = form.addField({
+            //     id:'custpage_sdr_txn_date',
+            //     type: serverWidget.FieldType.DATE,
+            //     label:'Txn Date'
+            // });
 
             var salOrderTotFld = form.addField({
                 id:'custpage_sdr_sal_order_tot',
@@ -53,11 +58,27 @@ define(['N/ui/serverWidget'],
                 label:'Sales Order Total'
             });
 
-            var finPriceFld = form.addField({
-                id:'custpage_sdr_fin_price',
-                type: serverWidget.FieldType.CURRENCY,
-                label:'Financing Price'
-            });
+            // var finPriceFld = form.addField({
+            //     id:'custpage_sdr_fin_price',
+            //     type: serverWidget.FieldType.CURRENCY,
+            //     label:'Financing Price'
+            // });
+
+            // set field default values
+            salOrderNumbFld.defaultValue = salOrderNumb;
+            customerFld.defaultValue = customer;
+            salOrderTotFld.defaultValue = salOrderTot;
+
+            // set field display type
+            orderNumbFld.updateDisplayType({
+                displayType: serverWidget.FieldDisplayType.INLINE
+            })
+            customerFld.updateDisplayType({
+                displayType: serverWidget.FieldDisplayType.INLINE
+            })
+            salOrderTotFld.updateDisplayType({
+                displayType: serverWidget.FieldDisplayType.INLINE
+            })
 
             // add a submit button
             form.addSubmitButton('Save Finance Info.');
