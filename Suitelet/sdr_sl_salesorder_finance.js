@@ -90,7 +90,7 @@ define(['N/ui/serverWidget'],
             salOrderTotFld.updateDisplayType({
                 displayType: serverWidget.FieldDisplayType.INLINE
             });
-            salOrderIdFld.updateDisplayType({
+            salOrdIdFld.updateDisplayType({
                 displayType: serverWidget.FieldDisplayType.HIDDEN
             });
 
