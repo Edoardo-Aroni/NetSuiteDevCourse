@@ -57,7 +57,7 @@ define(['N/ui/serverWidget'],
 
             // render the page by writing it to response
 
-            context.response.writePage(form);
+            response.writePage(form);
 
 
 
