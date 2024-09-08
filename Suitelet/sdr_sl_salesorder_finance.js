@@ -18,8 +18,10 @@ define(['N/ui/serverWidget'],
             //extract values from parameters
 
             var salOrderNumb = request.parameters.custparam_sdr_sal_ord_num;
-            var customer = request.parameters.custparam_sdr_customer;
-            var salOrderTot =  request.parameters.custparam_sdr_sal_ord_total;
+            var customer     = request.parameters.custparam_sdr_customer;
+            var salOrderTot  = request.parameters.custparam_sdr_sal_ord_total;
+            var finPrice     = request.parameters.custparam_sdr_financing_price;
+            var salOrdId     = request.parameters.custparam_sdr_sal_ord_id;
 
 
             //create base form
@@ -58,30 +60,42 @@ define(['N/ui/serverWidget'],
                 label:'Sales Order Total'
             });
 
-            // var finPriceFld = form.addField({
-            //     id:'custpage_sdr_fin_price',
-            //     type: serverWidget.FieldType.CURRENCY,
-            //     label:'Financing Price'
-            // });
+            var finPriceFld = form.addField({
+                id:'custpage_sdr_fin_price',
+                type: serverWidget.FieldType.CURRENCY,
+                label:'Financing Price'
+            });
+
+            var salOrdIdFld = form.addField({
+                id:'custpage_sdr_sal_ord_id',
+                type: serverWidget.FieldType.TEXT,
+                label:'Sales Order ID'
+            });
 
             // set field default values
             salOrderNumbFld.defaultValue = salOrderNumb;
-            customerFld.defaultValue = customer;
-            salOrderTotFld.defaultValue = salOrderTot;
+            customerFld.defaultValue     = customer;
+            salOrderTotFld.defaultValue  = salOrderTot;
+            finPriceFld.defaultValue     = finPrice;
+            salOrdIdFld.defaultValue     = salOrdId;
+
 
             // set field display type
-            orderNumbFld.updateDisplayType({
+            salOrderNumbFld.updateDisplayType({
                 displayType: serverWidget.FieldDisplayType.INLINE
-            })
+            });
             customerFld.updateDisplayType({
                 displayType: serverWidget.FieldDisplayType.INLINE
-            })
+            });
             salOrderTotFld.updateDisplayType({
                 displayType: serverWidget.FieldDisplayType.INLINE
-            })
+            });
+            salOrderIdFld.updateDisplayType({
+                displayType: serverWidget.FieldDisplayType.HIDDEN
+            });
 
             // add a submit button
-            form.addSubmitButton('Save Finance Info.');
+            form.addSubmitButton('Submit Financing');
 
             // render the page by writing it to response
 
