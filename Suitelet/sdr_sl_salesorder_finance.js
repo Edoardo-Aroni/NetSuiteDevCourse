@@ -20,8 +20,15 @@ define(['N/ui/serverWidget'],
             var form = serverWidget.createForm({
                 title:'Sales Order Financing'
             });
-            // add form fields: Customer, Txn Date, Sales Order #, Sales Order Total, FinancingPrice
+            // add form fields: help,Customer, Txn Date, Sales Order #, Sales Order Total, FinancingPrice
 
+            var helpFld = form.addField({
+                id:'custpage_sdr_financing_help',
+                type: serverWidget.FieldType.HELP,
+                label:'Please assign a price to the financing of this sales order, then Submit Financing'
+            });
+            
+            
             var customerFld = form.addField({
                 id:'custpage_sdr_customer',
                 type: serverWidget.FieldType.TEXT,
