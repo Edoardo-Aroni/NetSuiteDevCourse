@@ -3,17 +3,19 @@
  * @NScriptType Suitelet
  */
 
-define(['N/ui/serverWidget'],
+define(['N/ui/serverWidget','N/record','N/redirect'],
     /**
-     * 
-     * @param {serverWidget} serverWidget 
-     * @returns 
+     * @param {serverWidget} serverWidget
+     * @param {record} record
+     * @param {redirect} redirect 
      */
-    function(serverWidget){
+    function(serverWidget, record, redirect){
         function onRequest(context){
             //get request and response from context object
             var request = context.request;
             var response = context.response;
+
+            if(request.method == 'GET') {
 
             //extract values from parameters
 
@@ -101,7 +103,28 @@ define(['N/ui/serverWidget'],
 
             response.writePage(form);
 
+        } else { //POST
+            //get salesorder id and financing price from form values
+            var salOrdId = request.parameters.custpage_sdr_sal_ord_id;
+            var finPrice = request.parameters.custpage_sdr_fin_price;
+
+            //load sales order
+            var salesOrder = record.load({
+                type: record.Type.SALES_ORDER,
+                id: salOrdId  
+            });
+            //set value finance pricing
+            salesOrder.setValue('custbody_sdr_finance_price',finPrice);
+            //save change in the sales order
+            salesOrder.save();
+            //redirect to sales order record
+            redirect.toRecord({
+                type: record.Type.SALES_ORDER,
+                id: salOrdId 
+            });
         }
+
+    }
         return {
             onRequest: onRequest
         };
