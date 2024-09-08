@@ -59,12 +59,6 @@ define(['N/ui/serverWidget'],
 
             response.writePage(form);
 
-
-
-            
-
-
-
         }
         return {
             onRequest: onRequest
