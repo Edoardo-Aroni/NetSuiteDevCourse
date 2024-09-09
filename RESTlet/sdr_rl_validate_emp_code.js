@@ -1,6 +1,6 @@
 /**
  * @NApiVersion 2.0
- * @NScriptType RESTlet
+ * @NScriptType Restlet
  */
 define([],function(){
     function doGet(requestParams){
@@ -14,6 +14,6 @@ define([],function(){
     }    
     
     return {
-        doGet: doGet
+        get: doGet
     };
 });

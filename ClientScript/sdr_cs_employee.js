@@ -3,13 +3,14 @@
  * @NScriptType ClientScript
  */
 
-define(['N/runtime'], 
-    /**
-     * 
-     * @param {runtime} runtime 
-     * @returns 
-     */
-    function(runtime){
+define(['N/runtime','N/https','N/url'], 
+   /**
+    * 
+    * @param {runtime} runtime 
+    * @param {https} https 
+    * @param {url} url 
+    */
+    function(runtime, https, url){
 
     function pageInit(context){
         var employee = context.currentRecord;
@@ -124,7 +125,18 @@ define(['N/runtime'],
         var employee = context.currentRecord;
 
         var empCode = employee.getValue('custentity_sdr_employee_code');
-        if(empCode == 'x') {
+
+        //get the url from the restlet script
+        var restletUrl= url.resolveScript({
+            scriptId:'customscript_sdr_rl_validate_emp_code',
+            deploymentId: 'customdeploy_sdr_rl_validate_emp_code'
+        });
+
+        var response = https.get({
+            url:restletUrl + '&sdr_emp_code='+ empCode //internal url
+        });
+
+        if(response.body == 'invalid') {
             alert('Invalid Employee Code Value. Please try again');
             return false;  // to prevent the user to save the record
         }
