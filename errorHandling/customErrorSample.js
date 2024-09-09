@@ -1,6 +1,6 @@
 define(['N/error'],function(error){
     var ordeProcessingErr = error.create({
-        name: 'OrderProcessingErro',
+        name: 'OrderProcessingError',
         message: 'There was a problem processing your order.'
     });
     return {
