@@ -138,7 +138,7 @@ define(['N/runtime'],
         lineInit: lineInit,
         validateLine: validateLine,
         fieldChanged : fieldChanged,
-        validateField: validateField,
+        // validateField: validateField,
         saveRecord   : saveRecord
     };
 
