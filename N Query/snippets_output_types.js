@@ -32,7 +32,7 @@ myPageResults.each(function(page){
 myCreatedQuery.columns = [
     myCreatedQuery.createColumn({
         fieldId: 'entityid',
-        alias: 'customer'
+        alias: 'customer' //requires an alias for the key
     }),
     myCreatedQuery.createColumn({
         fieldId: 'salesrep',
@@ -56,7 +56,7 @@ for(var i in results){
 myCreatedQuery.columns = [
     myCreatedQuery.createColumn({
         fieldId: 'entityid',
-        alias: 'customer'
+        alias: 'customer' //requires an alias for the key
     }),
     myCreatedQuery.createColumn({
         fieldId: 'salesrep',
