@@ -1,41 +1,37 @@
 require(['N/query'],
     function(query){
 
-        myCreatedQuery = query.create({
-            type: query.Type.CUSTOMER
+        var myCreatedQuery = query.create({
+            type: query.Type.SYSTEM_NOTE //  or  type: 'systemnote'
         });
 
-        myFirstCondition = myCreatedQuery.createCondition({
-            fieldId:'searchStage',
-            operator: query.Operator.ANY_OF,
-            values:'Prospect'
+        var firstCondition = myCreatedQuery.createCondition({
+            fieldId: 'recordTypeId',
+            operator: query.Operator.EMPTY_NOT // or operator 'EMPTY_NOT'
         });
 
-        myCreatedQuery.condition = myFirstCondition;
-
+        myCreatedQuery.condition = firstCondition;
 
         myCreatedQuery.columns = [
-
             myCreatedQuery.createColumn({
-                fieldId:'entityId'
+                fieldId: 'record'
             }),
-
             myCreatedQuery.createColumn({
-                fieldId:'salesRep',
+                fieldId: 'recordTypeId',
                 context: query.FieldContext.DISPLAY
             }),
-
             myCreatedQuery.createColumn({
-                fieldId:'leadSource',
+                fieldId: 'field',
                 context: query.FieldContext.DISPLAY
             }),
-
             myCreatedQuery.createColumn({
-                fieldId:'email'
+                fieldId: 'type'
             }),
-
             myCreatedQuery.createColumn({
-                fieldId:'phone'
+                fieldId: 'oldValue'
+            }),
+            myCreatedQuery.createColumn({
+                fieldId: 'newValue'
             })
         ];
 
@@ -45,14 +41,12 @@ require(['N/query'],
 
         log.debug({
             title:'Query Length',
-            details: results.length
+            details:results.length
         });
-
-        for(var i=0; i < results.length; i++){
+        
+        for(var i=0; i<results.length; i++){
             log.debug({
                 title: results[i].values
             });
         }
-    
-    
 });
