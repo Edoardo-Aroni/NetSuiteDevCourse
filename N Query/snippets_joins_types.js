@@ -28,7 +28,7 @@ var createdByJoin = myCreatedQuery.joinTo({
 myCreatedQuery.columns = [
     myCreatedByJoin.createColumn({
         fieldId: 'entityid'
-    });
+    })
 ]
 
 // join From  - Query.joinFrom(options)
