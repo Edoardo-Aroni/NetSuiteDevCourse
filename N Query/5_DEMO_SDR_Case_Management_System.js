@@ -91,6 +91,16 @@ require(['N/query'],
             })
         ];
 
+        myLoadedQuery.sort = [
+            myLoadedQuery.createSort({
+                column: myLoadedQuery.columns[0],
+                ascending:false,
+                caseSensitive:true,
+                locale:query.SortLocale.EN_CA,
+                nullsLast:true
+            })
+        ];
+
         var resultSet = myLoadedQuery.run();
         var results = resultSet.results;
 
@@ -101,7 +111,8 @@ require(['N/query'],
         });
 
         for(var i=0; i<results.length; i++){
-            var mResult = results[i].values;
+            //var mResult = results[i].values;
+            var mResult = results[i].asMap();
 
             log.debug({title: mResult});
         }    
