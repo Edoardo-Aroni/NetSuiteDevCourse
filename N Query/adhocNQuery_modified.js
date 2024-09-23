@@ -12,6 +12,11 @@ require(['N/query'],
             fieldId:'location'
         });
 
+        var pricingJoin = myCreatedQuery.joinFrom({
+            fieldId:'item',
+            source:'pricing'
+        });
+
         var firstCondition = myCreatedQuery.createCondition({
             fieldId:'itemType',
             operator:query.Operator.ANY_OF,
@@ -24,7 +29,13 @@ require(['N/query'],
             values:0
         });
 
-        myCreatedQuery.condition = myCreatedQuery.and(firstCondition,secondCondition);
+        var thirdCondition = myCreatedQuery.createCondition({
+            fieldId:'id',
+            operator:query.Operator.ANY_OF,
+            values:257
+        });
+
+        myCreatedQuery.condition = myCreatedQuery.and(firstCondition,secondCondition,thirdCondition);
 
         myCreatedQuery.columns = [
             myCreatedQuery.createColumn({
@@ -72,11 +83,25 @@ require(['N/query'],
                      ELSE 'NO' 
                      END`,
             alias:'Critical Qty'
-                })
+                }),
+            pricingJoin.createColumn({
+                fieldId:'currency',
+                type:query.FieldContext.CONVERTED,
+                params: {
+                    currencyId: 1,
+                    date: query.RelativeDateRange.LAST_FISCAL_QUARTER
+                },
+                alias:'Currency'
+            }),
+            pricingJoin.createColumn({
+                fieldId:'unitPrice',
+                alias:'Unit Price'
+            })
+            
         ];
         myCreatedQuery.sort = [
             myCreatedQuery.createSort({
-                column: myCreatedQuery.columns[0],
+                column: myCreatedQuery.columns[10],
                 ascending:true,
                 caseSensitive:true,
                 locale:query.SortLocale.EN_US,
@@ -85,15 +110,15 @@ require(['N/query'],
         ];
 
         var resultSet = myCreatedQuery.run();
-        var results = resultSet.results;
+        var results = resultSet.asMappedResults();
 
         log.debug({
             title:'Query Length',
             details: results.length
         });
 
-        for(var i in results){
-            log.debug(results[i].asMap());
-        }
+        log.debug({
+            title: results
+        });
 
     });
