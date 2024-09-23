@@ -4,7 +4,7 @@ require(['N/query'],
             type: query.Type.ITEM
         });
 
-        var locationsJoin = item.autoJoin({
+        var locationsJoin = myCreatedQuery.autoJoin({
             fieldId:'locations'
         });
 
@@ -14,7 +14,7 @@ require(['N/query'],
 
         var firstCondition = myCreatedQuery.createCondition({
             fieldId:'itemType',
-            operator:query.operator.ANY_OF,
+            operator:query.Operator.ANY_OF,
             values: 'InvtPart'
         });
 
@@ -61,21 +61,35 @@ require(['N/query'],
             locationsJoin.createColumn({
             fieldId:'quantityOnHand',
             alias:'Quantity on Hand'
-            }),    
+            }), 
+            myCreatedQuery.createColumn({
+            type:query.ReturnType.STRING,
+            formula:`CASE 
+                     WHEN {locations.quantityonhand} IS EMPTY 
+                     THEN 'NO QTY' 
+                     WHEN {locations.quantityonhand} < 50 
+                     THEN 'YES' 
+                     ELSE 'NO' 
+                     END`,
+            alias:'Critical Qty'
+                })
+        ];
+        myCreatedQuery.sort = [
+            myCreatedQuery.createSort({
+                column: myCreatedQuery.columns[0],
+                ascending:true,
+                caseSensitive:true,
+                locale:query.SortLocale.EN_US,
+                nullsLast:true
+            })
+        ];
 
-//pag 48
-        ]
+        var resultSet = myCreatedQuery.run();
+        var results = resultSet.results;
 
-
-
-
-
-
-
-        
-
-
-
-
+        log.debug({
+            title:'Query Length',
+            details: results.length
+        });
 
     });
