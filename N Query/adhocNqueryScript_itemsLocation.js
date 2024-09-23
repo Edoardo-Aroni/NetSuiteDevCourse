@@ -92,4 +92,8 @@ require(['N/query'],
             details: results.length
         });
 
+        for(var i in results){
+            log.debug(results[i].asMap());
+        }
+
     });
