@@ -86,16 +86,22 @@ require(['N/query'],
                 }),
             pricingJoin.createColumn({
                 fieldId:'currency',
-                type:query.FieldContext.CONVERTED,
-                params: {
-                    currencyId: 1,
-                    date: query.RelativeDateRange.LAST_FISCAL_QUARTER
-                },
-                alias:'Currency'
+                context: query.FieldContext.DISPLAY
             }),
             pricingJoin.createColumn({
                 fieldId:'unitPrice',
                 alias:'Unit Price'
+            }),
+            pricingJoin.createColumn({
+                fieldId:'unitPrice',
+                context: {
+                    name: query.FieldContext.CONVERTED,
+                    params: {
+                        currencyId: 1,
+                        date: query.RelativeDateRange.LAST_FISCAL_QUARTER
+                    }
+                },
+                alias:'Unit Price in USD'
             })
             
         ];
