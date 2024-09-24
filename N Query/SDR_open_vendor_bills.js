@@ -5,7 +5,15 @@ require(['N/query'],
             id:'custworkbook_sdr_wb_open_vendbills'
         });
 
-        var myLoadedQuerySQL = myLoadedQuery.SuiteQL;
+        var myLoadedQuerySQL = myLoadedQuery.toSuiteQL();
+        var SuiteQLQuery = myLoadedQuerySQL.query;
+
+        log.debug({
+            title:'SuiteQL query',
+            details: SuiteQLQuery
+        });
+
+
 
         var resultSet = myLoadedQuerySQL.run();
 
@@ -21,3 +29,5 @@ require(['N/query'],
         }
 
 });
+
+
