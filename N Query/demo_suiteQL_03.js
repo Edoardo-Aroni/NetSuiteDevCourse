@@ -25,7 +25,8 @@ require(['N/query'], function(query) {
     for (var i = 0; i < results.length; i++) {
         log.debug({
             title: 'Customer',
-            details: 'Entity ID: ' + results[i].entityid + ', Email: ' + results[i].email
+            //details: 'Entity ID: ' + results[i].entityid + ', Email: ' + results[i].emai
+            details: `Entity ID: ${results[i].entityid}, Email: ${results[i].email}`
         });
     }
 });
