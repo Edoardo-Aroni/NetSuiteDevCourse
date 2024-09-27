@@ -37,10 +37,10 @@ define(['N/ui/serverWidget', 'N/redirect'],
 
                 // Redirect to another Suitelet, passing the selected date as a parameter
                 redirect.toSuitelet({
-                    scriptId: 'customscript_another_suitelet', // Replace with your second Suitelet script ID
-                    deploymentId: 'customdeploy_another_suitelet', // Replace with your second Suitelet deployment ID
+                    scriptId: 'customscript_sdr_recent_sales_orders', // Replace with your second Suitelet script ID
+                    deploymentId: 'ccustomdeploy_sdr_recent_sales_orders', // Replace with your second Suitelet deployment ID
                     parameters: {
-                        dateparam: selectedDate // Passing the date as a parameter
+                        custparam_date: selectedDate // Passing the date as a parameter
                     }
                 });
             }

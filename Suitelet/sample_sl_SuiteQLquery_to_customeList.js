@@ -10,6 +10,9 @@ define(['N/ui/serverWidget', 'N/query', 'N/log'],
             var request = context.request;
             var response = context.response;
 
+            // Get the date from the request parameters
+            var selectedDate = request.parameters.custparam_date;
+
             // Define SuiteQL query
             var suiteQL = `
                 SELECT 
@@ -22,13 +25,14 @@ define(['N/ui/serverWidget', 'N/query', 'N/log'],
                     transaction AS t
                 WHERE 
                     t.type = 'SalesOrd' 
-                    AND t.trandate > TO_DATE('01/09/2024','dd/mm/yyyy')
+                    AND t.trandate > TO_DATE(?,'dd/mm/yyyy')
                 ORDER BY date DESC
             `;
 
             // Execute SuiteQL Query
             var queryResults = query.runSuiteQL({
-                query: suiteQL
+                query: suiteQL,
+                params:[selectedDate]
             });
 
             var results = queryResults.asMappedResults();
