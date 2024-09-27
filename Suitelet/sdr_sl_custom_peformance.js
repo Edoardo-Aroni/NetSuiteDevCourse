@@ -32,6 +32,22 @@ define(['N/redirect', 'N/ui/serverWidget','N/query'],
 
                 form.addSubmitButton('Continue');
                 context.response.writePage(form);
+            } else {
+                var emp = request.parameters.custpage_employee;
+
+                var resultSet = query.runSuiteQL({
+                    query: 'SELECT employee.entityid FROM employee.id = ? ',
+                    params: [emp_id]
+                });
+
+                var emp_display = '';
+                var result = resultSet.results;
+                for (var i= results.length -1; i >= 0; i--){
+                    emp_display = results[i].value[0]
+                }
+
+                
+
             }
 
         }
@@ -39,6 +55,6 @@ define(['N/redirect', 'N/ui/serverWidget','N/query'],
 
 
     return{
-
+        onRequest: onRequest
     };
 });
