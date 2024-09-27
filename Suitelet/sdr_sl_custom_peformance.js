@@ -45,15 +45,8 @@ define(['N/redirect', 'N/ui/serverWidget','N/query'],
                 for (var i= results.length -1; i >= 0; i--){
                     emp_display = results[i].value[0]
                 }
-
-                
-
             }
-
         }
-
-
-
     return{
         onRequest: onRequest
     };
