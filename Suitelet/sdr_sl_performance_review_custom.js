@@ -1,5 +1,5 @@
 /**
- * @NApiVersion 2.2
+ * @NApiVersion 2.1
  * @NScriptType Suitelet
  * @NModuleScope SameAccount
  */
