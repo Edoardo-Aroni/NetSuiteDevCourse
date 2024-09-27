@@ -70,11 +70,11 @@ define(['N/ui/serverWidget', 'N/query', 'N/log'],
             // Add rows to the list based on SuiteQL results
             results.forEach(function(result) {
                 list.addRow({
-                    tranid: result["Transaction ID"],
-                    customer: result["Customer"],
-                    total: result["Total"],
-                    status: result["Status"],
-                    date: result["Date"]
+                    tranid: result["transaction_id"],
+                    customer: result["customer"],
+                    total: result["total"],
+                    status: result["status"],
+                    date: result["date"]
                 });
             });
 
