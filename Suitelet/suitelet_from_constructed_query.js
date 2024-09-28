@@ -43,7 +43,7 @@ define(['N/query','N/redirect','N/ui/serverWidget'],
 
             log.debug(dept_name);
 
-            // Redirect to another Suitelet, passing the selected date as a parameter
+            // Redirect to another Suitelet, passing paremeters
             redirect.toSuitelet({
                 scriptId: 'customscript_sdr_suitelet_query2', // Replace with your second Suitelet script ID
                 deploymentId: 'customdeploy_sdr_suitelet_query2', // Replace with your second Suitelet deployment ID
