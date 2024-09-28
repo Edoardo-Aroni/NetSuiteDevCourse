@@ -30,7 +30,7 @@ define(['N/query','N/redirect','N/ui/serverWidget'],
             var suiteQL = `SELECT BUILTIN.DF(id) FROM department WHERE id = ?`
 
             var queryResults = query.runSuiteQL({
-                query: 'suiteQL',
+                query: suiteQL,
                 params: [dept_id]
             });
 
@@ -38,10 +38,10 @@ define(['N/query','N/redirect','N/ui/serverWidget'],
             var dept_name = '';
 
             for(var i in results){
-                dept_name = results[i].value[0];
+                dept_name = results[i].values[0];
             }
 
-            log.debug(dept_name);
+            log.debug('Selected Department',`ID: ${dept_id} Name: ${dept_name}`);
 
             // Redirect to another Suitelet, passing paremeters
             redirect.toSuitelet({
