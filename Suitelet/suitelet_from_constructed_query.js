@@ -25,9 +25,33 @@ define(['N/query','N/redirect','N/ui/serverWidget'],
 
             response.writePage({pageObject:form});
         } else {
-            var department = request.parameters.custpage_department.id;
+            var dept_id = request.parameters.custpage_department;
 
-            var suiteQL = 
+            var suiteQL = `SELECT BUILTIN.DF(id) FROM department WHERE id = ?`
+
+            var queryResults = query.runSuiteQL({
+                query: 'suiteQL',
+                params: [dept_id]
+            });
+
+            var results = queryResults.results;
+            var dept_name = '';
+
+            for(var i in results){
+                dept_name = results[i].value[0];
+            }
+
+            log.debug(dept_name);
+
+            // Redirect to another Suitelet, passing the selected date as a parameter
+            redirect.toSuitelet({
+                scriptId: 'customscript_sdr_suitelet_query2', // Replace with your second Suitelet script ID
+                deploymentId: 'customdeploy_sdr_suitelet_query2', // Replace with your second Suitelet deployment ID
+                parameters: {
+                            'custparam_dept_id': dept_id,
+                            'custparam_dept_name': dept_name
+                            }
+            });
 
         }
 
