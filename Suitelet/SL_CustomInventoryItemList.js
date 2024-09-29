@@ -12,6 +12,8 @@ define(['N/query', 'N/ui/serverWidget', 'N/url'],
     //Create separate variables to capture the parameters passed by the initial Suitelet
         var itemDeptId = request.parameters.custparam_dept_id;
         var itemDeptName = request.parameters.custparam_dept_name;
+
+
     //Create the initial query definition with an Item record type.        
         var invItemQuery = query.create({type: query.Type.ITEM});
     //Join the Locations record type to the parent component
@@ -29,7 +31,7 @@ define(['N/query', 'N/ui/serverWidget', 'N/url'],
     });
 
     var secondCondition = invItemQuery.createCondition({
-        fieldId: 'type',
+        fieldId: 'itemtype',
         operator: query.Operator.ANY_OF,
         values: 'InvtPart'
     });
@@ -40,12 +42,12 @@ define(['N/query', 'N/ui/serverWidget', 'N/url'],
     });
 
     var fourthCondition = invItemQuery.createCondition({
-        fieldid:'department',
+        fieldId:'department',
         operator: query.Operator.ANY_OF,
         values: itemDeptId
     });
     //Apply all conditions to the parent component
-    invItemQuery.conditions = invItemQuery.and(firstCondition,secondCondition,thirdCondition,fourthCondition);
+    invItemQuery.condition = invItemQuery.and(firstCondition,secondCondition,thirdCondition,fourthCondition);
     //Add columns
     invItemQuery.columns = [
         invItemQuery.createColumn({
