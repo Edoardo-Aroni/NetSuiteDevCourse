@@ -11,7 +11,7 @@ function(query){
         operator: query.Operator.EMPTY_NOT
     });
 
-    myCreatedquery.conditon = firsCondition;
+    myCreatedquery.condition = firsCondition;
 
     myCreatedquery.columns = [
         myCreatedquery.createColumn({
