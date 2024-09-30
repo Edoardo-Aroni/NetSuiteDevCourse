@@ -133,7 +133,7 @@ define(['N/query', 'N/ui/serverWidget', 'N/url'],
     //add a link to the list
     list.addPageLink({
         title:'Add Inventory Adjustment',
-        type:serverWidget.FormPageLinkType.CROSSLINK,
+        type:serverWidget.FormPageLinkType.CROSSLINK, //appear on the right; BREADCRUMB on the left
         url: invAdj
     });
     // Display the list on the Suitelet page
