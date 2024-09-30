@@ -9,7 +9,7 @@ define(['N/query'],
                var portlet = params.portlet;
                portlet.title = "Pending Time Entries";
                portlet.addColumn({
-                            id: 'transcdate',
+                            id: 'transacdate',
                             type: 'text',
                             label: 'Transaction Date',
                             align: 'LEFT'
@@ -45,13 +45,13 @@ define(['N/query'],
 
             myCreatedQuery.condition =
                myCreatedQuery.createCondition({
-                fieldId:'approval status',
+                fieldId:'approvalstatus',
                 operator: query.Operator.ANY_OF,
                 values: 2
                });
 
             myCreatedQuery.columns = [
-               myCreatedQuery.createColumn({fieldId: trandate}),
+               myCreatedQuery.createColumn({fieldId: 'trandate'}),
                myCreatedQuery.createColumn({
                 fieldId: 'employee',
                 context: query.FieldContext.DISPLAY
