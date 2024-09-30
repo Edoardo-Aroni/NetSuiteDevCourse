@@ -125,9 +125,21 @@ define(['N/query', 'N/ui/serverWidget', 'N/url'],
         });
     });
 
+    //create a URL string
+    var invAdj = url.resolveRecord({
+        recordType: 'inventoryadjustment', // go to record browser 
+        isEditMode: true
+    });
+    //add a link to the list
+    list.addPageLink({
+        title:'Add Inventory Adjustment',
+        type:serverWidget.FormPageLinkType.CROSSLINK,
+        url: invAdj
+    });
     // Display the list on the Suitelet page
     response.writePage(list);
     }
+
     return{
         onRequest:onRequest
     };
