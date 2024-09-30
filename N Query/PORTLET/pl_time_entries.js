@@ -51,7 +51,7 @@ define(['N/query'],
                });
 
             myCreatedQuery.columns = [
-               myCreatedQuery.createColumn({fieldId: transdate}),
+               myCreatedQuery.createColumn({fieldId: trandate}),
                myCreatedQuery.createColumn({
                 fieldId: 'employee',
                 context: query.FieldContext.DISPLAY
