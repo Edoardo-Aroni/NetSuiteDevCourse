@@ -76,6 +76,6 @@ define(['N/query'],
                });
     }
     return{
-        params:params
+        render:render
     };
 });
