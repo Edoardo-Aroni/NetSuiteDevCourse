@@ -58,6 +58,10 @@ define(['N/query'],
             ORDER BY
                 p.entityid ASC`;
 
+            var results = query.runSuiteQL({
+                query: mysuiteQLquery
+            });
+
             
     }
     return{
