@@ -17,9 +17,9 @@ define(['N/query'],
                 align: 'LEFT'
             });
             myPorlet.addColumn({
-                id: 'partner_name',
+                id: 'partner_mail',
                 type: 'text',
-                label: 'Partner',
+                label: 'Email',
                 align: 'LEFT'
             });
             myPorlet.addColumn({
@@ -58,11 +58,22 @@ define(['N/query'],
             ORDER BY
                 p.entityid ASC`;
 
-            var results = query.runSuiteQL({
+            var resultsSet = query.runSuiteQL({
                 query: mysuiteQLquery
             });
 
-            
+            var results = resultSet.results;
+
+            var iterator = resultSet.iterator();
+               iterator.each(function(result){
+                var currentResult = result.value;
+                params.portlet.addRow({
+                    partner_name: currentResult.getValue(0),
+                    parner_email: currentResult.getValue(1),
+                    partner_addr: currentResult.getValue(2)
+                });
+                return true;
+               });
     }
     return{
         params:params
