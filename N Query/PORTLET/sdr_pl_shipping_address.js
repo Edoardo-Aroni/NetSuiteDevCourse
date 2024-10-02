@@ -3,79 +3,82 @@
  * @NScriptType Portlet
  */
 define(['N/query'],
-    function(query){     
-        function render(params){
-            //create a portlet object and set the params.portlet method to render the portlet
-            var myPorlet = params.portlet;
-            // use the Portlet.title property to determine the portlet title
-            myPorlet.title ='PL Shipping Address';
-            //add columns using the Portlet.addColumn(options) method
-            myPorlet.addColumn({
+    function(query) {     
+        function render(params) {
+            // Create a portlet object and set the title
+            var myPortlet = params.portlet;
+            myPortlet.title = 'PL Shipping Address';
+
+            // Add columns to the portlet
+            myPortlet.addColumn({
                 id: 'partner_name',
                 type: 'url',
                 label: 'Partner',
                 align: 'LEFT'
             });
-            myPorlet.addColumn({
+            myPortlet.addColumn({
                 id: 'partner_mail',
                 type: 'text',
                 label: 'Email',
                 align: 'LEFT'
             });
-            myPorlet.addColumn({
+            myPortlet.addColumn({
                 id: 'partner_addr',
                 type: 'url',
                 label: 'Shipping Address',
                 align: 'LEFT'
             });
 
-            var mysuiteQLquery = 
-            `SELECT 
-                ('<a href="/app/common/entity/partner.nl?id=' || p.id || '">' ||
-                p.entitytitle || '</a>') AS partner,
-                ('<a href="mailto:' || p.email || '" target="_blank">' || p.email || 
-                '</a>') AS email,
-                ('<a href="https://www.google.com/maps/search/' || 
-                COALESCE(paddrbookent.addr1, '') || '+' ||
-                COALESCE(paddrbookent.city, '') || '+' || 
-                COALESCE(paddrbookent.state, '') || '+' || 
-                COALESCE(paddrbookent.country, '') || '+' || 
-                COALESCE(paddrbookent.zip, '') || '">' ||
-                COALESCE(paddrbookent.city, '') || ' ' || 
-                COALESCE(paddrbookent.country, '') || '</a>') AS googlemap
-            FROM 
-                partner AS p
-            JOIN 
-                partneraddressbook AS paddrbook
-                ON p.id = paddrbook.entity
-            JOIN 
-                partneraddressbookentityaddress AS paddrbookent
-                ON paddrbook.addressbookaddress = paddrbookent.nkey
-            WHERE
-                paddrbook.defaultShipping IS NOT NULL
-                AND paddrbookent.city IS NOT NULL
-                AND paddrbookent.country IS NOT NULL
-            ORDER BY
-                p.entityid ASC`;
+            // SuiteQL query to fetch partner details
+            var suiteQLQuery = `
+                SELECT 
+                    ('<a href="/app/common/entity/partner.nl?id=' || p.id || '">' ||
+                    p.entitytitle || '</a>') AS partner,
+                    ('<a href="mailto:' || p.email || '" target="_blank">' || p.email || 
+                    '</a>') AS email,
+                    ('<a href="https://www.google.com/maps/search/' || 
+                    COALESCE(paddrbookent.addr1, '') || '+' ||
+                    COALESCE(paddrbookent.city, '') || '+' || 
+                    COALESCE(paddrbookent.state, '') || '+' || 
+                    COALESCE(paddrbookent.country, '') || '+' || 
+                    COALESCE(paddrbookent.zip, '') || '">' ||
+                    COALESCE(paddrbookent.city, '') || ' ' || 
+                    COALESCE(paddrbookent.country, '') || '</a>') AS googlemap
+                FROM 
+                    partner AS p
+                JOIN 
+                    partneraddressbook AS paddrbook
+                    ON p.id = paddrbook.entity
+                JOIN 
+                    partneraddressbookentityaddress AS paddrbookent
+                    ON paddrbook.addressbookaddress = paddrbookent.nkey
+                WHERE
+                    paddrbook.defaultShipping IS NOT NULL
+                    AND paddrbookent.city IS NOT NULL
+                    AND paddrbookent.country IS NOT NULL
+                ORDER BY
+                    p.entityid ASC`;
 
-            var resultsSet = query.runSuiteQL({
-                query: mysuiteQLquery
+            // Run the SuiteQL query
+            var resultSet = query.runSuiteQL({
+                query: suiteQLQuery
             });
 
-            var results = resultSet.results;
-
+            // Get the results and iterate over them
             var iterator = resultSet.iterator();
-               iterator.each(function(result){
-                var currentResult = result.value;
+            iterator.each(function(result) {
+                // Add rows to the portlet with the corresponding values
                 params.portlet.addRow({
-                    partner_name: currentResult.getValue(0),
-                    parner_email: currentResult.getValue(1),
-                    partner_addr: currentResult.getValue(2)
+                    partner_name: result.getValue(0),
+                    partner_mail: result.getValue(1),
+                    partner_addr: result.getValue(2)
                 });
-                return true;
-               });
+                return true;  // Continue iterating
+            });
+        }
+
+        return {
+            render: render
+        };
     }
-    return{
-        render:render
-    };
-});
+);
