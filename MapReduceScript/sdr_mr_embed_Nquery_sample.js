@@ -77,7 +77,25 @@ define(['N/query','N/file'],
     
 
         function map(context) {
-    
+            //initialize an object and use JSON.parse to parse the value property 
+            //from the entry point parameter. This converts the JSON string back 
+            //to its native js object.
+            var queryResult = JSON.parse(contex.value);
+            /*
+            write an output to create the key value pairs that will parse to the shuffle 
+            stage and then the reduce stage. To accomplish this, set the key to entry points
+            key property. And indicate the value parameter as an array object.
+            Create a column name that corresponds to the query column.  
+            Then extract the JSON object using the values property and identify 
+            the column position to access each query value.
+            */
+           context.write({
+            key: context.key,
+            value: {
+                LeadCount: queryResult.value[0],
+                Date: queryResult.values[1]
+            }
+           });
         }
     
         function reduce(context) {
