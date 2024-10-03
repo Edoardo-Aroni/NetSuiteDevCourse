@@ -163,7 +163,7 @@ define(['N/query','N/file'],
         });
 
         //use the file.folder property and set this to the folder internal ID
-        fileObj.folder = '';
+        fileObj.folder = 199;
         //use the file.save method to upload the generated file into the new folder. 
         //This also saves an updated file whenever the script is deployed again.
         var fileId = fileObj.save();
