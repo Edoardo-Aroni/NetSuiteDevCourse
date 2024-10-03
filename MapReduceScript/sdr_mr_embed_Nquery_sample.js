@@ -99,13 +99,76 @@ define(['N/query','N/file'],
         }
     
         function reduce(context) {
-    
+            // evaluate each key value pair 
+            context.write(context.key,context.values[0]);
         }
-    
     
         function summarize(summary) {
+            //create separate variables for key value and query length
+            function summarize(summarize){
+                var keys = '';
+                var queryValues = '';
+                var len = 0;
+            }
+            /* 
+            prepare a CSV file to append the query values in the summary stage. 
+            create a CSV file using the N/file module. Initialize a file object 
+            and use the file.create method.
+            Concatenate a new line character at the end of the initial content.
+            */
+            var fileObj = file.create({
+                name: 'lead_count_suiteql.csv',
+                fileType: 'CSV',
+                contents:'Lead Count This Fiscal Year ' +'\n'
+            });
+            /*
+            use an iterator to gather the key value pairs that the reduce stage sends.
+            */
+        context.output.iterator().each(function(key, value){
+                keys += (key + ' ');
+            
+            /* 
+            Concatenate the key saved from the reduce stage to one of the created string 
+            variables and include the value from the reduce stage to one of the created 
+            string variables.
+
+            */
+           queryValues += (value + '\n').replace('{','').replace('}', '').replace('"','');
+           /*
+            On the value parameter, concatenate the value from the reduce stage and use 
+            the JavaScript replace method to remove unnecessary characters. 
+            Increment the variable length on each iteration. 
+            Use the file.append line method to insert the query values into the file.
+            */
+           fileObj.appendLine({
+            value: (value + '\n').replace('{','').replace('}', '').replace('"','')
+           });
+           len++
+
+           return true;
+        });
+        //Use logging statements to view the key value and query length in the 
+        //execution log.
+        log.audit({
+            title: 'Keys',
+            details: keys
+        });
+        log.audit({
+            title: 'Values',
+            details: queryValues
+        });
+        log.audit({
+            title: 'Length',
+            details: len
+        });
+
+        //use the file.folder property and set this to the folder internal ID
+        fileObj.folder = '';
+        //use the file.save method to upload the generated file into the new folder. 
+        //This also saves an updated file whenever the script is deployed again.
+        var fileId = fileObj.save();
     
-        }
+    }
     
         return {
             getInputData: getInputData,
