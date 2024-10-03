@@ -6,12 +6,12 @@ function(query){
         type: query.Type.TIME_BILL
     });
 
-    var firsCondition = myCreatedquery.createCondition({
+    var firstCondition = myCreatedquery.createCondition({
         fieldId: 'memo',
         operator: query.Operator.EMPTY_NOT
     });
 
-    myCreatedquery.condition = firsCondition;
+    myCreatedquery.condition = firstCondition;
 
     myCreatedquery.columns = [
         myCreatedquery.createColumn({
