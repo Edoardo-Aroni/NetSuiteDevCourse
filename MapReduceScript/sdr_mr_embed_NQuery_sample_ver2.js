@@ -73,71 +73,61 @@ define(['N/query', 'N/file'], function(query, file) {
             type: 'suiteql',
             query: suiteQLQuery
         };
-    }
+    }  
+
     function map(context) {
-        //initialize an object and parse the value property 
-        var queryResult = JSON.parse(context.value);
-        
-        //write output to create key-value pairs
+        // Parse the query result from the context if it's a string
+        var queryResult = typeof context.value === 'string' ? JSON.parse(context.value) : context.value;
+
+        // Write output with key-value pairs
         context.write({
-            key: context.key,
-            value: {
-                LeadCount: queryResult.values[0],
-                Date: queryResult.values[1]
-            }
+            key: queryResult.values[0],  // Lead count as key (assuming first value is lead_count)
+            value: queryResult
         });
     }
 
     function reduce(context) {
-        // evaluate each key value pair 
-        context.write(context.key, context.values[0]);
+        // Write the first key-value pair to the output
+        context.write({
+            key: context.key,
+            value: context.values[0]
+        });
     }
 
     function summarize(summary) {
-        var keys = '';
-        var queryValues = '';
-        var len = 0;
+        let csvData = "Lead Count, Date\n";
 
-        // prepare a CSV file
+        // Iterate over the output from the reduce phase
+        summary.output.iterator().each(function (key, value) {
+            try {
+                // Check if value is an object or a string
+                const mapData = typeof value === 'string' ? JSON.parse(value) : value;
+
+                const leadCount = mapData.values[0]; // Assuming the first value is lead_count (INTEGER)
+                const date = mapData.values[1]; // Assuming the second value is date (STRING)
+
+                // Append the lead count and date to the CSV data
+                csvData += `${leadCount}, ${date}\n`;
+            } catch (e) {
+                log.error({
+                    title: 'Error Processing Summarize Data',
+                    details: `Error processing key ${key}: ${e}`
+                });
+            }
+            return true; // Continue iterating
+        });
+
+        // Prepare and create a CSV file
         var fileObj = file.create({
-            name: 'lead_count_suiteql.csv',
+            name: 'lead_count_suiteql-ver2.csv',
             fileType: file.Type.CSV,
-            contents: 'Lead Count This Fiscal Year\n'
+            contents: csvData,
+            folder: 199
         });
 
-        // use an iterator to gather the key-value pairs
-        summary.output.iterator().each(function(key, value) {
-            keys += (key + ' ');
+        const fileId = fileObj.save();
 
-            // Concatenate the key and value from the reduce stage
-            queryValues += (value + '\n').replace('{', '').replace('}', '').replace('"', '');
-
-            // Append values to CSV
-            fileObj.appendLine({
-                value: (value + '\n').replace('{', '').replace('}', '').replace('"', '')
-            });
-            len++;
-
-            return true;
-        });
-
-        // Log the summary details
-        log.audit({
-            title: 'Keys',
-            details: keys
-        });
-        log.audit({
-            title: 'Values',
-            details: queryValues
-        });
-        log.audit({
-            title: 'Length',
-            details: len
-        });
-
-        // Set folder internal ID and save file
-        fileObj.folder = 199;
-        var fileId = fileObj.save();
+        log.audit('File created', `File ID: ${fileId}`);
     }
 
     return {
