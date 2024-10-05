@@ -68,6 +68,11 @@ define(['N/query', 'N/file'], (query, file) => {
 
         // Iterate over the output from the reduce phase
         summary.output.iterator().each((key, value) => {
+            log.audit({
+                title: ' summary.output.iterator', 
+                details: 'key: ' + key + ' / value: ' + value
+            });
+
             try {
                 // Parse the value into JSON format
                 const taskData = JSON.parse(value);
