@@ -98,6 +98,32 @@ define(['N/email','N/record','N/redirect','N/ui/serverWidget'],
 
            form.addSubmitButton('Complete Process');
 
+           nameFldField.updateDisplayType({
+            displayType: serverWidget.FieldType.DISABLED
+           });
+
+           salesRepFld.updateDisplayType({
+            displayType:serverWidget.FieldDisplayType.INLINE
+           });
+
+           phoneFld.updateDisplayType({
+            display:serverWidget.FieldDisplayType.INLINE
+           });
+
+           emBodyFldField.updateDisplaySize({
+            height: 20,
+            width: 85
+           });
+
+           noteFldField.updateLayoutType({
+            layoutType: serverWidget.FieldLayoutType.OUTSIDEABOVE
+           });
+
+           tskTitleFld.isMandatory = true;
+           tskNotesFld.isMandatory = true;
+           emSubjectFld.isMandatory = true;
+           emBodyFld.isMandatory = true;
+
            response.writePage(form);
 
         }
