@@ -49,6 +49,7 @@ define(['N/email','N/record','N/redirect','N/ui/serverWidget'],
                 id: 'custpage_nfo_salesrep',
                 label: 'Sales Rep',
                 type: serverWidget.FieldType.SELECT,
+                source: 'employee',
                 container: 'custpage_grp_customer'
             });
 
@@ -89,11 +90,13 @@ define(['N/email','N/record','N/redirect','N/ui/serverWidget'],
 
             const noteFld = form.addField({
                 id: 'custpage_impt_note',
-                label: `NOTE: These task are important customer onboarding task. Please make sure you fill in all required fields`,
+                label: `NOTE: These task are important customer onboarding task. Please make sure these are not skipped`,
                 type: serverWidget.FieldType.HELP
             });
 
-           form.addSubmitButton();
+
+
+           form.addSubmitButton('Complete Process');
 
            response.writePage(form);
 
@@ -104,3 +107,5 @@ define(['N/email','N/record','N/redirect','N/ui/serverWidget'],
         };
         
     });
+
+    // next step: modified layout and field properties video 3 - 21 minutes
