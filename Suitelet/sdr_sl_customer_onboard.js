@@ -98,7 +98,7 @@ define(['N/email','N/record','N/redirect','N/ui/serverWidget'],
 
            form.addSubmitButton('Complete Process');
 
-           nameFldField.updateDisplayType({
+           nameFld.updateDisplayType({
             displayType: serverWidget.FieldType.DISABLED
            });
 
