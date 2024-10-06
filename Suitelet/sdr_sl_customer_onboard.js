@@ -119,10 +119,10 @@ define(['N/email','N/record','N/redirect','N/ui/serverWidget'],
             layoutType: serverWidget.FieldLayoutType.OUTSIDEABOVE
            });
 
-           tskTitleFld.isMandatory = true;
-           tskNoteFld.isMandatory = true;
+           tskTitleFld.isMandatory  = true;
+           tskNoteFld.isMandatory   = true;
            emSubjectFld.isMandatory = true;
-           emBodyFld.isMandatory = true;
+           emBodyFld.isMandatory    = true;
 
            response.writePage(form);
 
@@ -134,6 +134,3 @@ define(['N/email','N/record','N/redirect','N/ui/serverWidget'],
         
     });
 
-    // next step: modified layout and field properties video 3 - 21 minutes
-
-    // next step: modified layout and field properties video 3 - 21 minutes
