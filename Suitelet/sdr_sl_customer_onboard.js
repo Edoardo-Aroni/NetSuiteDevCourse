@@ -99,7 +99,7 @@ define(['N/email','N/record','N/redirect','N/ui/serverWidget'],
            form.addSubmitButton('Complete Process');
 
            nameFld.updateDisplayType({
-            displayType: serverWidget.FieldType.DISABLED
+            displayType: serverWidget.FieldDisplayType.DISABLED
            });
 
            salesRepFld.updateDisplayType({
@@ -107,20 +107,20 @@ define(['N/email','N/record','N/redirect','N/ui/serverWidget'],
            });
 
            phoneFld.updateDisplayType({
-            display:serverWidget.FieldDisplayType.INLINE
+            displayType:serverWidget.FieldDisplayType.INLINE
            });
 
-           emBodyFldField.updateDisplaySize({
+           emBodyFld.updateDisplaySize({
             height: 20,
             width: 85
            });
 
-           noteFldField.updateLayoutType({
+           noteFld.updateLayoutType({
             layoutType: serverWidget.FieldLayoutType.OUTSIDEABOVE
            });
 
            tskTitleFld.isMandatory = true;
-           tskNotesFld.isMandatory = true;
+           tskNoteFld.isMandatory = true;
            emSubjectFld.isMandatory = true;
            emBodyFld.isMandatory = true;
 
@@ -133,5 +133,7 @@ define(['N/email','N/record','N/redirect','N/ui/serverWidget'],
         };
         
     });
+
+    // next step: modified layout and field properties video 3 - 21 minutes
 
     // next step: modified layout and field properties video 3 - 21 minutes
