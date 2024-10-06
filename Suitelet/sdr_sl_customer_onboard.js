@@ -18,6 +18,12 @@ define(['N/email','N/record','N/redirect','N/ui/serverWidget'],
             const request  = context.request;
             const response = context.response;
 
+            const customerId        = request.parameters.custparam_sdr_customer_id;
+            const customerPhone     = request.parameters.custparam_sdr_phone;
+            const customerEmail     = request.parameters.custparam_sdr_email;
+            const customerSalesRep  = request.parameters.custparam_sdr_salesrep;
+
+
             const form = serverWidget.createForm({
                 title: 'Customer Onboarding'
                 //hideNavBar: true            // this is optional, default value is false
@@ -41,7 +47,8 @@ define(['N/email','N/record','N/redirect','N/ui/serverWidget'],
             const nameFld = form.addField({
                 id: 'custpage_nfo_name',
                 label: 'Customer Name',
-                type: serverWidget.FieldType.TEXT,
+                type: serverWidget.FieldType.SELECT,
+                source: 'customer',
                 container: 'custpage_grp_customer'
             });
 
@@ -123,6 +130,11 @@ define(['N/email','N/record','N/redirect','N/ui/serverWidget'],
            tskNoteFld.isMandatory   = true;
            emSubjectFld.isMandatory = true;
            emBodyFld.isMandatory    = true;
+
+           nameFld.defaultValue     = customerId;
+           phoneFld.defaultValue    = customerPhone;
+           salesRepFld.defaultValue = customerSalesRep;
+           
 
            response.writePage(form);
 

@@ -35,8 +35,8 @@ define(['N/redirect', 'N/record'],
                     parameters: {
                         custparam_sdr_customer_id: customer.id,
                         custparam_sdr_phone: customer.getValue({fieldId: 'phone'}),
-                        custparam_sdr_phone: customer.getValue({fieldId: 'email'}),
-                        custparam_sdr_email: customer.getValue({fieldId: 'salesrep'})
+                        custparam_sdr_email: customer.getValue({fieldId: 'email'}),
+                        custparam_sdr_salesrep: customer.getValue({fieldId: 'salesrep'})
                     }
                 });
             }
