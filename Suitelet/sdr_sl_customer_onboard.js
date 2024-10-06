@@ -99,7 +99,7 @@ define(['N/email','N/record','N/redirect','N/ui/serverWidget'],
            form.addSubmitButton('Complete Process');
 
            nameFld.updateDisplayType({
-            displayType: serverWidget.FieldDisplayType.DISABLED
+            displayType: serverWidget.FieldDisplayType.INLINE
            });
 
            salesRepFld.updateDisplayType({
