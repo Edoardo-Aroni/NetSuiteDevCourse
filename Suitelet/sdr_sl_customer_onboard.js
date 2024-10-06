@@ -45,14 +45,58 @@ define(['N/email','N/record','N/redirect','N/ui/serverWidget'],
                 container: 'custpage_grp_customer'
             });
 
-            const tskTitleFld = Form.addField({
+            const  salesRepFld = form.addField({
+                id: 'custpage_nfo_salesrep',
+                label: 'Sales Rep',
+                type: serverWidget.FieldType.SELECT,
+                container: 'custpage_grp_customer'
+            });
+
+            const phoneFld = form.addField({
+                id: 'custpage_nfo_phone',
+                label: 'Phone',
+                type: serverWidget.FieldType.PHONE,
+                container: 'custpage_grp_customer'
+            });
+
+            const tskTitleFld = form.addField({
                 id: 'custpage_tsk_title',
                 label: 'Task Title',
                 type: serverWidget.FieldType.TEXT,
                 container: 'custpage_grp_task'
-            })
-            
-    
+            });
+
+            const tskNoteFld = form.addField({
+                id: 'custpage_tsk_notes',
+                label: 'Task Notes',
+                type: serverWidget.FieldType.TEXTAREA,
+                container: 'custpage_grp_task'
+            });
+
+            const emSubjectFld = form.addField({
+                id: 'custpage_em_subject',
+                label: 'Subject',
+                type: serverWidget.FieldType.TEXT,
+                container: 'custpage_grp_email'
+            });
+
+            const emBodyFld = form.addField({
+                id: 'custpage_em_body',
+                label: 'Body',
+                type: serverWidget.FieldType.TEXTAREA,
+                container: 'custpage_grp_email'
+            });
+
+            const noteFld = form.addField({
+                id: 'custpage_impt_note',
+                label: `NOTE: These task are important customer onboarding task. Please make sure you fill in all required fields`,
+                type: serverWidget.FieldType.HELP
+            });
+
+           Form.addSubmitButton();
+
+           response.writePage(form);
+
         }
     
         return {
