@@ -19,8 +19,8 @@ define(['N/email','N/record','N/redirect','N/ui/serverWidget'],
             const response = context.response;
 
             const form = serverWidget.createForm({
-                title: 'Customer Onboarding',
-                hideNavBar: true            // this is optional, default value is false
+                title: 'Customer Onboarding'
+                //hideNavBar: true            // this is optional, default value is false
             });
 
             const customerInfoGrp = form.addFieldGroup({
@@ -93,7 +93,7 @@ define(['N/email','N/record','N/redirect','N/ui/serverWidget'],
                 type: serverWidget.FieldType.HELP
             });
 
-           Form.addSubmitButton();
+           form.addSubmitButton();
 
            response.writePage(form);
 
