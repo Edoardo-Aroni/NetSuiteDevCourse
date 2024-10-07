@@ -120,7 +120,7 @@ define(['N/email','N/record','N/redirect','N/ui/serverWidget'],
                 messageEmailFld.isMandatory   = true;
 
                 // update field sizes
-                middleNameFldField.updateDisplaySize({
+                middleNameFld.updateDisplaySize({
                     height: 0,
                     width: 5
                 });
@@ -154,6 +154,92 @@ define(['N/email','N/record','N/redirect','N/ui/serverWidget'],
 
             } else {
 
+                const subsidiary = request.parameters.custpage_nfo_subsidiary;
+                const firstName  = request.parameters.custpage_nfo_first_name;
+                const middleName = request.parameters.custpage_nfo_middle_name;
+                const lastName   = request.parameters.custpage_nfo_last_name;
+                const email      = request.parameters.custpage_nfo_email;
+                const supervisor = request.parameters.custpage_nfo_supervisor;
+                const title      = request.parameters.custpage_msup_title;
+                const emailBody  = request.parameters.custpage_ewelc_email;
+                const emailSubj  = request.parameters.custpage_ewelc_subject;
+
+
+
+                const employee = record.create({
+                    type: record.Type.EMPLOYEE,
+                    isDynamic: true
+                });
+
+                employee.setValue('subsidiary',subsidiary);
+                employee.setValue('firstname', firstName);
+                employee.setValue('middlename', middleName);
+                employee.setValue('lastname', lastName);
+                employee.setValue('email', email);
+                employee.setValue('supervisor', supervisor);
+
+                const employeeID = employee.save();
+
+                // redirect.toRecord({
+                //     id: employeeID,
+                //     type: record.Type.EMPLOYEE,
+                //     isEditMode: TRUE
+                // });
+
+                const event = record.create({
+                    type:record.Type.CALENDAR_EVENT,
+                    isDynamic: true
+                });
+
+                event.setValue('title', title);
+
+                event.selectNewLine({
+                    sublistId: 'attendee'
+                });
+                event.setCurrentSublistValue({
+                    sublistId: 'attendee',
+                    fieldId: 'attendee',
+                    value: employeeID
+                });
+                event.commitLine({
+                    sublistId: 'attendee'
+                });
+
+
+                event.selectNewLine({
+                    sublistId: 'attendee'
+                });
+                event.setCurrentSublistValue({
+                    sublistId: 'attendee',
+                    fieldId: 'attendee',
+                    value: supervisor
+                });
+                event.commitLine({
+                    sublistId: 'attendee'
+                });
+
+                const eventID = event.save();
+
+                // redirect.toRecord({
+                //     id: eventID,
+                //     type: record.Type.CALENDAR_EVENT,
+                //     isEditMode: true
+                // });
+
+
+
+                email.send({
+                    author: supervisor,
+                    body: emailBody,
+                    recipients: [employeeID],
+                    subject: emailSubj
+                });
+    
+                redirect.toRecord({
+                    id: employeeID,
+                    type: record.Type.EMPLOYEE,
+                    isEditMode: true
+                });
 
             }
         }
