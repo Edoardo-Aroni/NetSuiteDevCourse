@@ -6,7 +6,7 @@ require(['N/query'],
             type: query.Type.TRANSACTION
         });
 
-        //JOINS
+    //JOINS
         // join to Transaction Line
         const transactionLineJoin = sweepQuery.autoJoin({fieldId:'transactionlines'});
         // join to Subsidiary
@@ -19,61 +19,60 @@ require(['N/query'],
         const departmentJoin = transactionLineJoin.autoJoin({fieldId:'department'});
         // join to Location
         const locationJoin = transactionLineJoin.autoJoin({fieldId:'location'});
-
         // join to Transaction Audit Line
         const transactionAccountingLineJoin = transactionLineJoin.autoJoin({fieldId:'accountingimpact'});
         // join to Account
         const accountJoin = transactionAccountingLineJoin.autoJoin({fieldId:'account'});
 
-        // CONDITIONS
+    // CONDITIONS
         //posting is true
-        const oneCondition = sweepQuery.createCondition({
+        const firstCondition = sweepQuery.createCondition({
             fieldId: 'posting',
             operator: query.Operator.IS,
             values: true
         });
         //posting is within this period - Oct 2024
-        const twoCondition = sweepQuery.createCondition({
+        const secondCondition = sweepQuery.createCondition({
             fieldId: 'postingperiod',
             operator: query.Operator.ANY_OF,
             values: [443]
         });
         //subsidiary is 21 = EMT
-        const threeCondition = transactionLineJoin.createCondition({
+        const thirdCondition = transactionLineJoin.createCondition({
             fieldId: 'subsidiary',
             operator: query.Operator.ANY_OF,
             values:[21]
         });
         //class is MBC = 258
-        const fourCondition = transactionLineJoin.createCondition({
+        const fourthCondition = transactionLineJoin.createCondition({
             fieldId: 'class',
             operator: query.Operator.ANY_OF,
             values:[258]
         });
         //amount is not equal 0
-        const fiveCondition = transactionAccountingLineJoin.createCondition({
+        const fifthCondition = transactionAccountingLineJoin.createCondition({
             fieldId: 'amount',
             operator: query.Operator.EQUAL_NOT,
             values: 0
         });
         //account include in sweep is true
-        const sixCondition = accountJoin.createCondition({
+        const sixthCondition = accountJoin.createCondition({
             fieldId:'custrecord_eii_include_sweep',
             operator:query.Operator.IS,
             values: true
         });
 
-        // Combine conditions into the query
+    // Combine conditions into the query
         sweepQuery.condition = sweepQuery.and(
-            oneCondition,
-            twoCondition,
-            threeCondition,
-            fourCondition,
-            fiveCondition,
-            sixCondition
+            firstCondition,
+            secondCondition,
+            thirdCondition,
+            fourthCondition,
+            fifthCondition,
+            sixthCondition
         );
-        
-       // COLUMNS
+
+    // COLUMNS
        sweepQuery.columns = [
         sweepQuery.createColumn({fieldId:'postingperiod.enddate'}),                             //trans_date
         subsidiaryJoin.createColumn({fieldId:'currency', context: query.FieldContext.DISPLAY}), //currency
