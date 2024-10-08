@@ -79,6 +79,14 @@ require(['N/query'],
             accountJoin.createColumn({fieldId:'acctnumber'}),                                                          //account
             transactionAccountingLineJoin.createColumn({fieldId:'debit'}),                                             //debit
             transactionAccountingLineJoin.createColumn({fieldId:'credit'}),                                            //credit
+            sweepQuery.createColumn({
+                type: query.ReturnType.STRING,
+                formula: `'Intercompany Recharges ' ||{postingperiod#display}`
+            }),                                                                                                        //jnl_header_memo
+            sweepQuery.createColumn({
+                type: query.ReturnType.STRING,
+                formula: `SUBSTR(({type#display} ||': '||{tranid} ||' '||{memo}||' '||{transactionlines.memo}),1,999)`
+            }),                                                                                                        //jnl_line_desc                                                                                                                   
             classJoin.createColumn({fieldId:'externalid'}),                                                            //class
             productJoin.createColumn({fieldId:'externalid'}),                                                          //product_id
             departmentJoin.createColumn({fieldId:'externalid'}),                                                       //functional_activity
