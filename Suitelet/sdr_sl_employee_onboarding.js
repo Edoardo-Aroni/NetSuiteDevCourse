@@ -228,17 +228,30 @@ define(['N/email','N/record','N/redirect','N/ui/serverWidget'],
 
 
 
-                email.send({
-                    author: supervisor,
-                    body: emailBody,
-                    recipients: [employeeID],
-                    subject: emailSubj
+                // email.send({
+                //     author: supervisor,
+                //     body: emailBody,
+                //     recipients: [employeeID],
+                //     subject: emailSubj
+                // });
+
+                
+
+
+
+                log.debug({
+                    title: 'comp email',
+                    details:`
+                            author: ${supervisor}
+                            body: ${emailBody},
+                            recipients: ${employeeID}
+                            subject: ${emailSubj}`
                 });
     
                 redirect.toRecord({
                     id: employeeID,
                     type: record.Type.EMPLOYEE,
-                    isEditMode: true
+                    isEditMode: false
                 });
 
             }
