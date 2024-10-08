@@ -33,49 +33,63 @@ require(['N/query'],
         COUNTRY
         */
 
-        //
+        //posting is true
         var firstCondition = myCreatedQuery.createCondition({
-            fieldId: 'recordTypeId',
-            operator: query.Operator.EMPTY_NOT // or operator 'EMPTY_NOT'
+            fieldId: 'posting',
+            operator: query.Operator.IS,
+            values: true
+        });
+        //posting is within this period
+        var secondCondition = myCreatedQuery.createCondition({
+            fieldId: 'postingPeriod',
+            operator: query.Operator.WITHIN,
+            values: query.PeriodCode.THIS_PERIOD
+        });
+        //amount is not equal 0
+        var thirdCondition = myCreatedQuery.createCondition({
+            fieldId: '',
+            operator: query.Operator.EQUAL_NOT,
+            values: 0
         });
 
-        myCreatedQuery.condition = firstCondition;
 
-        myCreatedQuery.columns = [
-            myCreatedQuery.createColumn({
-                fieldId: 'record'
-            }),
-            myCreatedQuery.createColumn({
-                fieldId: 'recordTypeId',
-                context: query.FieldContext.DISPLAY
-            }),
-            myCreatedQuery.createColumn({
-                fieldId: 'field',
-                context: query.FieldContext.DISPLAY
-            }),
-            myCreatedQuery.createColumn({
-                fieldId: 'type'
-            }),
-            myCreatedQuery.createColumn({
-                fieldId: 'oldValue'
-            }),
-            myCreatedQuery.createColumn({
-                fieldId: 'newValue'
-            })
-        ];
+        // myCreatedQuery.condition = firstCondition;
 
-        var resultSet = myCreatedQuery.run();
+        // myCreatedQuery.columns = [
+        //     myCreatedQuery.createColumn({
+        //         fieldId: 'record'
+        //     }),
+        //     myCreatedQuery.createColumn({
+        //         fieldId: 'recordTypeId',
+        //         context: query.FieldContext.DISPLAY
+        //     }),
+        //     myCreatedQuery.createColumn({
+        //         fieldId: 'field',
+        //         context: query.FieldContext.DISPLAY
+        //     }),
+        //     myCreatedQuery.createColumn({
+        //         fieldId: 'type'
+        //     }),
+        //     myCreatedQuery.createColumn({
+        //         fieldId: 'oldValue'
+        //     }),
+        //     myCreatedQuery.createColumn({
+        //         fieldId: 'newValue'
+        //     })
+        // ];
 
-        var results = resultSet.results;
+        // var resultSet = myCreatedQuery.run();
 
-        log.debug({
-            title:'Query Length',
-            details:results.length
-        });
+        // var results = resultSet.results;
+
+        // log.debug({
+        //     title:'Query Length',
+        //     details:results.length
+        // });
         
-        for(var i=0; i<results.length; i++){
-            log.debug({
-                title: results[i].values
-            });
-        }
+        // for(var i=0; i<results.length; i++){
+        //     log.debug({
+        //         title: results[i].values
+        //     });
+        // }
 });
