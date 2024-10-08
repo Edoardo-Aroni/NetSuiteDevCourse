@@ -73,17 +73,17 @@ require(['N/query'],
         );
 
     // COLUMNS
-       sweepQuery.columns = [
-        sweepQuery.createColumn({fieldId:'postingperiod.enddate'}),                             //trans_date
-        subsidiaryJoin.createColumn({fieldId:'currency', context: query.FieldContext.DISPLAY}), //currency
-        accountJoin.createColumn({fieldId:'acctnumber'}),                                       //account
-        transactionAccountingLineJoin.createColumn({fieldId:'debit'}),                          //debit
-        transactionAccountingLineJoin.createColumn({fieldId:'credit'}),                         //credit
-        classJoin.createColumn({fieldId:'externalid'}),                                         //class
-        productJoin.createColumn({fieldId:'externalid'}),                                       //product_id
-        departmentJoin.createColumn({fieldId:'externalid'}),                                    //functional_activity
-        locationJoin.createColumn({fieldId:'externalid'}),                                      //location_code
-        transactionLineJoin.createColumn({fieldId:'custcol_eii_jnl_country', context:query.FieldContext.DISPLAY}) // country                                  //country
+        sweepQuery.columns = [
+            sweepQuery.createColumn({fieldId:'postingperiod.enddate'}),                                                //trans_date
+            subsidiaryJoin.createColumn({fieldId:'currency', context: query.FieldContext.DISPLAY}),                    //currency
+            accountJoin.createColumn({fieldId:'acctnumber'}),                                                          //account
+            transactionAccountingLineJoin.createColumn({fieldId:'debit'}),                                             //debit
+            transactionAccountingLineJoin.createColumn({fieldId:'credit'}),                                            //credit
+            classJoin.createColumn({fieldId:'externalid'}),                                                            //class
+            productJoin.createColumn({fieldId:'externalid'}),                                                          //product_id
+            departmentJoin.createColumn({fieldId:'externalid'}),                                                       //functional_activity
+            locationJoin.createColumn({fieldId:'externalid'}),                                                         //location_code
+            transactionLineJoin.createColumn({fieldId:'custcol_eii_jnl_country', context:query.FieldContext.DISPLAY}) // country                                  //country
        ];
 
 
