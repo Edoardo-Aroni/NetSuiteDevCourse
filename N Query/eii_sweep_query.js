@@ -62,6 +62,7 @@ require(['N/query'],
             operator:query.Operator.IS,
             values: true
         });
+
         // Combine conditions into the query
         sweepQuery.condition = sweepQuery.and(
             oneCondition,
@@ -71,22 +72,7 @@ require(['N/query'],
             fiveCondition,
             sixCondition
         );
-                /*
-        COLUMNS:
-
-        TRANS_DATE
-        JOURNAL_CURRENCY
-        NS_ACCOUNT_CODE
-        DEBIT
-        CREDIT
-        JNL_LINE_DESC
-        JNL_HEADER_MEMO
-        CLASS
-        PRODUCT_ID
-        FUNCTIONAL_ACTIVITY
-        LOCATION
-        COUNTRY
-        */
+        
        // COLUMNS
        sweepQuery.columns = [
         sweepQuery.createColumn({fieldId:'postingperiod.enddate'}),                             //trans_date
