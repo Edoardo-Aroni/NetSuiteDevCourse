@@ -95,16 +95,16 @@ require(['N/query'],
        ];
 
 
-        var resultSet = sweepQuery.run();
+        const resultSet = sweepQuery.run();
 
-        var results = resultSet.results;
+        const results = resultSet.results;
 
         log.debug({
             title:'Query Length',
             details:results.length
         });
         
-        for(var i=0; i<results.length; i++){
+        for(let i=0; i<results.length; i++){
             log.debug({
                 title: results[i].values
             });
