@@ -1,20 +1,25 @@
 SELECT 
-  BUILTIN_RESULT.TYPE_STRING(Subsidiary_0.tranprefix) AS tranprefix, 
-  BUILTIN_RESULT.TYPE_INTEGER(Subsidiary_0.ID) AS ID, 
-  BUILTIN_RESULT.TYPE_INTEGER(CUSTOMRECORD_EII_SWEEP_CLASS_MAPPING.custrecord_eii_source_subsidiary) AS custrecord_eii_source_subsidiary, 
-  BUILTIN_RESULT.TYPE_STRING(Subsidiary.tranprefix) AS tranprefix_1, 
-  BUILTIN_RESULT.TYPE_INTEGER(CUSTOMRECORD_EII_SWEEP_CLASS_MAPPING.custrecord_eii_destination_subsidiary) AS custrecord_eii_destination_subsidiary, 
-  BUILTIN_RESULT.TYPE_INTEGER(Subsidiary.ID) AS id_1, 
-  BUILTIN_RESULT.TYPE_INTEGER(CUSTOMRECORD_EII_SWEEP_CLASS_MAPPING.custrecord_eii_class) AS custrecord_eii_class, 
-  BUILTIN_RESULT.TYPE_STRING(classification.externalid) AS externalid, 
-  BUILTIN_RESULT.TYPE_INTEGER(CUSTOMRECORD_EII_SWEEP_CLASS_MAPPING.custrecord_eii_intercompany_account) AS custrecord_eii_intercompany_account, 
-  BUILTIN_RESULT.TYPE_STRING(ACCOUNT.externalid) AS externalid_1, 
-  BUILTIN_RESULT.TYPE_STRING(classification_0.externalid) AS externalid_2, 
-  BUILTIN_RESULT.TYPE_INTEGER(CUSTOMRECORD_EII_SWEEP_CLASS_MAPPING.custrecord_eii_intercom_line_class) AS custrecord_eii_intercom_line_class
+    SUBL.tranprefix AS source_doc_num, 
+    SUBL.ID AS source_sub_id, 
+    BUILTIN.DF(SUBL.ID) AS source_sub, 
+    SUB.tranprefix AS dest_doc_num, 
+    BUILTIN.DF(SUB.ID) AS dest_sub, 
+    SUB.ID AS dest_sub_id, 
+    SCM.custrecord_eii_class AS class_id, 
+    CLS.externalid AS class, 
+    SCM.custrecord_eii_intercompany_account AS intercom_accnt_id, 
+    A.externalid AS intercom_accnt, 
+    SCM.custrecord_eii_intercom_line_class AS intercom_line_class_id,
+    CLSL.externalid AS intercom_line_class 
 FROM 
-  CUSTOMRECORD_EII_SWEEP_CLASS_MAPPING
-LEFT JOIN classification ON CUSTOMRECORD_EII_SWEEP_CLASS_MAPPING.custrecord_eii_class = classification.ID
-LEFT JOIN Subsidiary ON CUSTOMRECORD_EII_SWEEP_CLASS_MAPPING.custrecord_eii_destination_subsidiary = Subsidiary.ID
-LEFT JOIN classification classification_0 ON CUSTOMRECORD_EII_SWEEP_CLASS_MAPPING.custrecord_eii_intercom_line_class = classification_0.ID
-LEFT JOIN ACCOUNT ON CUSTOMRECORD_EII_SWEEP_CLASS_MAPPING.custrecord_eii_intercompany_account = ACCOUNT.ID
-LEFT JOIN Subsidiary Subsidiary_0 ON CUSTOMRECORD_EII_SWEEP_CLASS_MAPPING.custrecord_eii_source_subsidiary = Subsidiary_0.ID;
+    CUSTOMRECORD_EII_SWEEP_CLASS_MAPPING AS SCM
+    LEFT JOIN classification AS CLS
+    ON SCM.custrecord_eii_class = CLS.ID
+    LEFT JOIN Subsidiary AS SUB
+    ON SCM.custrecord_eii_destination_subsidiary = SUB.ID
+    LEFT JOIN classification CLSL 
+    ON SCM.custrecord_eii_intercom_line_class = CLSL.ID
+    LEFT JOIN ACCOUNT AS A
+    ON SCM.custrecord_eii_intercompany_account = A.ID
+    LEFT JOIN Subsidiary AS SUBL 
+    ON SCM.custrecord_eii_source_subsidiary = SUBL.ID;
