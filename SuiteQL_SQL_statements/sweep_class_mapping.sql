@@ -14,12 +14,12 @@ SELECT
 FROM 
     CUSTOMRECORD_EII_SWEEP_CLASS_MAPPING AS SCM
     LEFT JOIN classification AS CLS
-    ON SCM.custrecord_eii_class = CLS.ID
+        ON SCM.custrecord_eii_class = CLS.ID
     LEFT JOIN Subsidiary AS SUB
-    ON SCM.custrecord_eii_destination_subsidiary = SUB.ID
+        ON SCM.custrecord_eii_destination_subsidiary = SUB.ID
     LEFT JOIN classification CLSL 
-    ON SCM.custrecord_eii_intercom_line_class = CLSL.ID
+        ON SCM.custrecord_eii_intercom_line_class = CLSL.ID
     LEFT JOIN ACCOUNT AS A
-    ON SCM.custrecord_eii_intercompany_account = A.ID
+        ON SCM.custrecord_eii_intercompany_account = A.ID
     LEFT JOIN Subsidiary AS SUBL 
-    ON SCM.custrecord_eii_source_subsidiary = SUBL.ID;
+        ON SCM.custrecord_eii_source_subsidiary = SUBL.ID;
