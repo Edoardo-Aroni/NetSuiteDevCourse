@@ -13,16 +13,13 @@
 define([], function() {
     const saveRecord = (context) => {
         const customer = context.currentRecord;
-        const phoneNumb = customer.getValue({ fieldId: 'phone' });
-        
+        const phoneNumb = customer.getValue({ fieldId: 'phone' });    
         if (!phoneNumb) {
             alert('Please provide the phone number.');
             return false;  // Prevent form submission
         }
-
         return true;  // Allow form submission
     }
-
     return {
         saveRecord: saveRecord  // Return the correct function
     };
