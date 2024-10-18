@@ -1,5 +1,14 @@
 /**
- *@NApiVersion 2.x
+ * 
+ * Business scope:
+ * Runs a saved search. Copies the attached PDF files to a new folder 
+ * in the File Cabinet. Generates a CSV file with transaction details 
+ * and the new file paths of the copied PDFs.
+ *
+ * Date                 Author                      Comments
+ * 18 Oct 2024          Edo Aroni                   N/A
+ * 
+ *@NApiVersion 2.1
  *@NScriptType Suitelet
  */
 
@@ -23,11 +32,12 @@
                 const resultsArray = [];
 
                 // Execute the search and process each result
-                searchObj.run().each(function (result) {
-                    const transactionId = result.getValue({ name: 'internalid' });
+                searchObj.run().each((result) => {
+                    const internalId = result.getValue({ name: 'internalid' });
+                    const documentNumber = result.getValue({ name: 'tranid' });
                     const transactionDate = result.getValue({ name: 'trandate' });
+                    const type = result.getValue({ name: 'type' });
                     const customerName = result.getText({ name: 'entity' });
-                    const amount = result.getValue({ name: 'total' });
 
                     const attachedFileId = result.getValue({ name: 'internalid', join: 'file' });
                     const attachedFileName = result.getValue({ name: 'name', join: 'file' });
@@ -40,10 +50,11 @@
 
                         // Collect result data including the new file path
                         resultsArray.push({
-                            transactionId: transactionId,
+                            internalId: internalId,
+                            documentNumber: documentNumber,
                             transactionDate: transactionDate,
+                            type:type,
                             customerName: customerName,
-                            amount: amount,
                             attachedFileName: attachedFileName,
                             copiedFileUrl: copiedFileUrl // New file path in the File Cabinet
                         });
@@ -53,7 +64,7 @@
                 });
 
                 // Save the resultsArray to a CSV file
-                var csvFile = saveResultsFile(resultsArray, newFolderId);
+                const csvFile = saveResultsFile(resultsArray, newFolderId);
 
                 // Return a response with the results file or confirmation
                 context.response.writeFile({
@@ -67,8 +78,8 @@
         }
 
         // Function to create a new folder in the File Cabinet
-        function createNewFolder(folderName) {
-            var folderObj = record.create({
+        const createNewFolder = (folderName) => {
+            const folderObj = record.create({
                 type: record.Type.FOLDER,
                 isDynamic: true
             });
@@ -78,57 +89,57 @@
                 value: folderName
             });
 
-            var folderId = folderObj.save();
+            const folderId = folderObj.save();
             log.debug('New Folder Created', folderId);
             return folderId;
         }
 
         // Function to copy a file to a new folder
-        function copyFileToFolder(fileId, fileName, newFolderId) {
-            var fileObj = file.load({
+        const copyFileToFolder = (fileId, fileName, newFolderId) => {
+            const fileObj = file.load({
                 id: fileId
             });
 
             // Create a copy of the file in the new folder
-            var copiedFileObj = file.create({
+            const copiedFileObj = file.create({
                 name: fileName,
                 fileType: fileObj.fileType,
                 contents: fileObj.getContents(),
                 folder: newFolderId
             });
 
-            var newFileId = copiedFileObj.save();
+            const newFileId = copiedFileObj.save();
             log.debug('File Copied', newFileId);
 
             // Get the new file's URL
-            var copiedFileObj = file.load({ id: newFileId });
+            const copiedFileObj = file.load({ id: newFileId });
             return copiedFileObj.url; // Return the URL of the copied file
         }
 
         // Function to save results as a CSV file in the file cabinet
         function saveResultsFile(resultsArray, folderId) {
-            var csvContent = 'Transaction ID,Transaction Date,Customer Name,Amount,Attached File Name,Copied File URL\n';
+            const csvContent = 'Internal ID,Document Number,Transaction Date,Type,Customer Name,Attached File Name,Copied File URL\n';
 
             // Loop through the results array to generate CSV content
-            resultsArray.forEach(function (result) {
-                csvContent += result.transactionId + ',' + result.transactionDate + ',' + result.customerName + ',' + result.amount + ',' + result.attachedFileName + ',' + result.copiedFileUrl + '\n';
+            resultsArray.forEach((result) => {
+                csvContent += result.internalId + ',' + result.documentNumber + ',' + result.transactionDate+ ',' + result.type + ',' + result.customerName + ',' + result.attachedFileName + ',' + result.copiedFileUrl + '\n';
             });
 
             // Create the CSV file
-            var csvFileObj = file.create({
+            const csvFileObj = file.create({
                 name: 'TransactionResultsWithCopiedPDFs.csv',
                 fileType: file.Type.CSV,
                 contents: csvContent,
                 folder: folderId // Save the CSV in the same folder
             });
 
-            var fileId = csvFileObj.save();
+            const fileId = csvFileObj.save();
             log.debug('CSV File Saved', fileId);
 
             return file.load({ id: fileId }); // Return the CSV file object
         }
 
         return {
-            onRequest: onRequest
+            onRequest
         };
     });
