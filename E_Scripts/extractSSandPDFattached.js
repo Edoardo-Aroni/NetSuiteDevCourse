@@ -8,7 +8,7 @@
 
         function onRequest(context) {
             try {
-                var savedSearchId = 'customsearch_data_extract_2'; // Use your saved search ID
+                var savedSearchId = 'customsearch_doc_extract_pdf'; // Use your saved search ID
                 var newFolderId = createNewFolder('Copied_PDFs'); // Create a new folder for copied PDFs
 
                 var searchObj = search.load({

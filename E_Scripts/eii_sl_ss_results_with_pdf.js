@@ -112,7 +112,7 @@
             log.debug('File Copied', newFileId);
 
             // Get the new file's URL
-            const copiedFileObj = file.load({ id: newFileId });
+            let newCopiedFileObj = file.load({ id: newFileId });
             return copiedFileObj.url; // Return the URL of the copied file
         }
 
