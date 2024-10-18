@@ -1,7 +1,7 @@
 /**
  * Business scope:
- * Validate if phone number is filled out when user submit customer record,
- * if empty alert user and prevent the form submission
+ * Validate if phone number is filled out when user submits the customer record.
+ * If empty, alert the user and prevent the form submission.
  *
  * Date                 Author                      Comments
  * 18 Oct 2024          Edo Aroni                   N/A
@@ -10,18 +10,22 @@
  * @NScriptType ClientScript
  * @NModuleScope SameAccount
  */
-define([],
-    ()=>{
-        const saveRecord = (context) => {
-            const customer = context.currentRecord;
-            const phoneNumb = customer.getValue('phone');
-            if(!phone){
-                alert('Provide the phone number.');
-                return false;
-            }
-            return true;
+define([], function() {
+    const saveRecord = (context) => {
+        const customer = context.currentRecord;
+        const phoneNumb = customer.getValue({ fieldId: 'phone' });
+        
+        if (!phoneNumb) {
+            alert('Please provide the phone number.');
+            return false;  // Prevent form submission
         }
-        return{
-            savedRecord: savedRecord
-        };
+
+        return true;  // Allow form submission
+    }
+
+    return {
+        saveRecord: saveRecord  // Return the correct function
+    };
 });
+
+
