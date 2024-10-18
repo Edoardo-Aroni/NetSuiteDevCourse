@@ -22,7 +22,7 @@
 
         const onRequest = (context) => {
             try {
-                const savedSearchId = 'customsearch_data_extract_2'; // Use your saved search ID
+                const savedSearchId = 'customsearch_doc_extract_attachments'; // Use the saved search ID
                 const newFolderId = createNewFolder('SS_results_with_PDFs'); // Create a new folder for copied PDFs
 
                 const searchObj = search.load({
