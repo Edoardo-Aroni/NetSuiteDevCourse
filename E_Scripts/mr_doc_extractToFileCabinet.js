@@ -29,16 +29,16 @@ define(['N/search', 'N/file', 'N/record', 'N/log', 'N/runtime'],
 
 
 
-        // Transaction/Message Details
-let internalId = searchResult.values['internalid.transaction']?.value || searchResult.values['internalid']?.value;
-let documentNumber = searchResult.values['tranid.transaction'] || searchResult.values['tranid'];
-let transactionDate = searchResult.values['trandate.transaction'] || searchResult.values['trandate'];
-let type = searchResult.values['type.transaction']?.text || searchResult.values['type']?.text;
-let customerName = searchResult.values['entity.transaction']?.text || searchResult.values['entity']?.text;
+        // Transaction/Message Details. Values to fit search server type Message || Transaction
+        let internalId = searchResult.values['internalid.transaction']?.value || searchResult.values['internalid']?.value;
+        let documentNumber = searchResult.values['tranid.transaction'] || searchResult.values['tranid'];
+        let transactionDate = searchResult.values['trandate.transaction'] || searchResult.values['trandate'];
+        let type = searchResult.values['type.transaction']?.text || searchResult.values['type']?.text;
+        let customerName = searchResult.values['entity.transaction']?.text || searchResult.values['entity']?.text;
 
-// File Attachment Details
-let attachedFileId = searchResult.values['internalid.attachments']?.value || searchResult.values['internalid.file']?.value;
-let attachedFileName = searchResult.values['name.attachments'] || searchResult.values['name.file'];
+        // File Attachment Details
+        let attachedFileId = searchResult.values['internalid.attachments']?.value || searchResult.values['internalid.file']?.value;
+        let attachedFileName = searchResult.values['name.attachments'] || searchResult.values['name.file'];
 
         log.debug('File Attachment Check', `File ID: ${attachedFileId}, File Name: ${attachedFileName}`);
 
