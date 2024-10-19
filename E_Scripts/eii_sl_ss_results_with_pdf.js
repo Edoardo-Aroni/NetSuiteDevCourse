@@ -1,9 +1,9 @@
 /**
  * 
  * Business scope:
- * Runs a saved search. Copies the attached PDF files to a new folder 
- * in the File Cabinet. Generates a CSV file with transaction details 
- * and the new file paths of the copied PDFs.
+ * Automate the process of extracting attached PDF files from search results, 
+ * copying them to a new folder in the File Cabinet, and generating a CSV file 
+ * containing transaction details along with the new file paths of the copied PDFs.
  *
  * Date                 Author                      Comments
  * 18 Oct 2024          Edo Aroni                   N/A
@@ -23,24 +23,54 @@
         const onRequest = (context) => {
             try {
                 const savedSearchId = 'customsearch_doc_extract_attachments'; // Use the saved search ID
-                const newFolderId = createNewFolder('SS_results_with_PDFs'); // Create a new folder for copied PDFs
+                const newFolderId = createNewFolder('SS_results_with_PDFs_v2'); // Create a new folder for copied PDFs
 
-                const searchObj = search.load({
+                let searchObj = search.load({
                     id: savedSearchId
                 });
 
-                const resultsArray = [];
+                let resultsArray = [];
 
+
+                switch(searchObj.searchType) {
+
+                case search.Type.TRANSACTION: {
                 // Execute the search and process each result
                 searchObj.run().each((result) => {
-                    const internalId = result.getValue({ name: 'internalid' });
-                    const documentNumber = result.getValue({ name: 'tranid' });
-                    const transactionDate = result.getValue({ name: 'trandate' });
-                    const type = result.getValue({ name: 'type' });
-                    const customerName = result.getText({ name: 'entity' });
+                    let internalId = result.getValue({ name: 'internalid' });
+                    let documentNumber = result.getValue({ name: 'tranid' });
+                    let transactionDate = result.getValue({ name: 'trandate' });
+                    let type = result.getValue({ name: 'type' });
+                    let customerName = result.getText({ name: 'entity' });
 
-                    const attachedFileId = result.getValue({ name: 'internalid', join: 'file' });
-                    const attachedFileName = result.getValue({ name: 'name', join: 'file' });
+                    let attachedFileId = result.getValue({ name: 'internalid', join: 'file' });
+                    let attachedFileName = result.getValue({ name: 'name', join: 'file' });     
+                });  
+                
+            }
+            break; 
+                case search.Type.MESSAGE: {
+                // Execute the search and process each result
+                searchObj.run().each((result) => {
+                    let internalId = result.getValue({ name: 'internalid', join: 'transaction' });
+                    let documentNumber = result.getValue({ name: 'tranid', join: 'transaction' });
+                    let transactionDate = result.getValue({ name: 'trandate', join: 'transaction' });
+                    let type = result.getValue({ name: 'type', join:'transaction' });
+                    let customerName = result.getText({ name: 'entity', join:'transaction' });
+
+                    let attachedFileId = result.getValue({ name: 'internalid', join: 'attachments' });
+                    let attachedFileName = result.getValue({ name: 'name', join: 'attachments' });
+            });
+            break; 
+            }
+            default: {
+                throw error.create({
+                    name: 'UNSUPPORTED_SEARCH_TYPE',
+                    message: `Search type [${searchObj.searchType}] is not supported.`
+                });
+            }
+
+           }
 
                     if (attachedFileId) {
                         log.debug('Found Attached File', attachedFileName);
@@ -58,10 +88,9 @@
                             attachedFileName: attachedFileName,
                             copiedFileUrl: copiedFileUrl // New file path in the File Cabinet
                         });
-                    }
 
                     return true; // Continue processing next result
-                });
+                };
 
                 // Save the resultsArray to a CSV file
                 const csvFile = saveResultsFile(resultsArray, newFolderId);
@@ -79,7 +108,7 @@
 
         // Function to create a new folder in the File Cabinet
         const createNewFolder = (folderName) => {
-            const folderObj = record.create({
+            let folderObj = record.create({
                 type: record.Type.FOLDER,
                 isDynamic: true
             });
@@ -96,12 +125,12 @@
 
         // Function to copy a file to a new folder
         const copyFileToFolder = (fileId, fileName, newFolderId) => {
-            const fileObj = file.load({
+            let fileObj = file.load({
                 id: fileId
             });
 
             // Create a copy of the file in the new folder
-            const copiedFileObj = file.create({
+            let copiedFileObj = file.create({
                 name: fileName,
                 fileType: fileObj.fileType,
                 contents: fileObj.getContents(),
@@ -112,13 +141,13 @@
             log.debug('File Copied', newFileId);
 
             // Get the new file's URL
-            let newCopiedFileObj = file.load({ id: newFileId });
+            let CopiedFileObj = file.load({ id: newFileId });
             return copiedFileObj.url; // Return the URL of the copied file
         }
 
         // Function to save results as a CSV file in the file cabinet
         function saveResultsFile(resultsArray, folderId) {
-            const csvContent = 'Internal ID,Document Number,Transaction Date,Type,Customer Name,Attached File Name,Copied File URL\n';
+            let csvContent = 'Internal ID,Document Number,Transaction Date,Type,Customer Name,Attached File Name,Copied File URL\n';
 
             // Loop through the results array to generate CSV content
             resultsArray.forEach((result) => {
