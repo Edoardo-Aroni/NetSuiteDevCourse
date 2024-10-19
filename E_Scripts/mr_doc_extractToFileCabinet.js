@@ -3,10 +3,10 @@
  * Business scope:
  * Runs a saved search. Copies the attached PDF files to a new folder 
  * in the File Cabinet. Generates a CSV file with transaction details 
- * and the new file paths of the copied PDFs.
+ * 
  *
  * Date                 Author                      Comments
- * 18 Oct 2024          Edo Aroni                   
+ * 17 Oct 2024          Edo Aroni                   
  * 
  * @NApiVersion 2.1
  * @NScriptType MapReduceScript
