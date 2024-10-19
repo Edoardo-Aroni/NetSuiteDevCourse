@@ -123,5 +123,26 @@ const doubleAllowance = allowance.flatMap((value) => [value*2]);
 console.log('Double Allowance', doubleAllowance);
 
 
+//how delete items from the middle of the array
+
+let countries = [
+    'ITALY',
+    'GREAT BRITAIN',
+    'FRANCE',
+    'SPAIN',
+    'PORTUGAL',
+    'GERMANY'
+];
+
+delete countries[2];
+//it replace FRANCE with and empty space but the array lenght stays the same
+
+//to remove the item from the array
+contries.splice(2,1);
+
+
+
+
+
 
 
