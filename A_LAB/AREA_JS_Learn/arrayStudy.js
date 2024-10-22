@@ -140,7 +140,38 @@ delete countries[2];
 //to remove the item from the array
 contries.splice(2,1);
 
+//iterate over an array using for loop used for arrays and objects
+const pageNames = [
+    'Home',
+    'About us',
+    'News',
+    'Blog'
+];
 
+// NB: the order of the keys it is not guarantee by the JS specs
+
+//iterate over the keys ... 'in'
+for (let p in pageNames) {
+    console.log(p, pageNames[p]);
+}
+// this loop iterate over the values ... 'of'
+for (let v of pageNames) {
+    console.log(v);
+}
+
+//this object is a bird
+var bird = {
+    genus: 'corvus',
+    species: 'corvax',
+    commonName:'raven',
+  }
+
+  
+for(let i in bird) {
+    if(bird.hasOwnProperty(i)){ // this ensure that to show only the own object properties
+        console.log(i, bird[i]); // the order of the keys is not guarantee
+    }
+} 
 
 
 
