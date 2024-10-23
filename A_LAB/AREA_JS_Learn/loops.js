@@ -3,7 +3,7 @@ for (let i = 0; i < 10; i++) {
     console.log(i);
 }
 
-// while loop
+// while loop. it is better when you don't know how many times you have to loop
 let i = 0;
 while (i < 10){
     console.log(i);
