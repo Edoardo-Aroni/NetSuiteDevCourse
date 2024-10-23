@@ -166,13 +166,12 @@ var bird = {
     commonName:'raven',
   }
 
-  
+
 for(let i in bird) {
     if(bird.hasOwnProperty(i)){ // this ensure that to show only the own object properties
         console.log(i, bird[i]); // the order of the keys is not guarantee
     }
 } 
-
 
 
 

@@ -2,7 +2,7 @@
  * 
  * Business scope:
  * Execute the saved search.
- * Copy the attached PDF files to a new folder in the File Cabinet.
+ *  Copy the attached PDF files to a new folder in the File Cabinet.
  * Create a CSV file with the transaction details and place it in the same folder.
  * 
  *
@@ -23,7 +23,7 @@ define(['N/search', 'N/file', 'N/record', 'N/log', 'N/runtime'],
         };
 
         // Map stage: Process each search result
-        const map = context => {
+        const map = (context) => {
     try {
         const searchResult = JSON.parse(context.value);
         log.debug('Processing Record', searchResult);  // Log the entire search result
@@ -80,10 +80,10 @@ define(['N/search', 'N/file', 'N/record', 'N/log', 'N/runtime'],
 
 
         // Reduce stage: Collect data for each transaction
-        const reduce = context => {
+        const reduce = (context) => {
             let resultsArray = [];
 
-            context.values.forEach(value => {
+            context.values.forEach((value) => {
                 let result = JSON.parse(value);
                 resultsArray.push(result);
             });
@@ -96,7 +96,7 @@ define(['N/search', 'N/file', 'N/record', 'N/log', 'N/runtime'],
         };
 
         // Summarize stage: Generate the CSV and save it to the File Cabinet
-        const summarize = summary => {
+        const summarize = (summary) => {
             try {
                 let allResults = [];
 
@@ -142,7 +142,7 @@ define(['N/search', 'N/file', 'N/record', 'N/log', 'N/runtime'],
             let csvContent = 'Internal ID,Document Number,Transaction Date,Type,Customer Name,Attached File Name\n';
 
             // Loop through the results array to generate CSV content
-            resultsArray.forEach(result => {
+            resultsArray.forEach((result) => {
                 csvContent += `${result.internalId},${result.documentNumber},${result.transactionDate},${result.type},${result.customerName},${result.attachedFileName}\n`;
             });
 
