@@ -5,9 +5,10 @@
 
 define(['N/search'], 
     
-    (search) => {
+    search => {
 
         const getInputData = () => {
+            //The search returns the customer and total invoice amount.
             const invSearch = search.create({
                 type: search.Type.TRANSACTION,
                 filters: [
@@ -21,31 +22,35 @@ define(['N/search'],
             return invSearch;
         }
 
-        const map = (context) =>{
-            log.debug('map',context);
-            const searchResult = JSON.parse(context.value);
-            const customer = searchResult.values.entity.text;
-            const total = searchResult.values.total;
-
+        const map = context => {
+            let searchResult = JSON.parse(context.value);
+            
+            // Destructure to get customer name (text) and total
+            let { values: { entity: { text: customer }, total } } = searchResult;
+        
+            // Write the customer name and total invoice amount to the context
             context.write({
-                key: customer,
-                value: total
+                key: customer,  // Customer name as the key
+                value: total    // Total invoice amount as the value
             });
         }
+        
 
-        const reduce = (context) =>{
-            log.debug('reduce',context);
+        const reduce = context => {
             let total = 0;
-
-            for(let i in context.values){
+        
+            // Sum up the totals for each customer
+            for (let i in context.values) {
                 total += parseFloat(context.values[i]);
             }
-
+        
+            // Log the total amount for each customer
             log.debug('Total', 'Customer ' + context.key + '\n' +
-                               'Total : ' + total);
+                               'Total: ' + total);
         }
+        
 
-        const summarize = (summary) => {
+        const summarize = summary => {
             log.audit('Number of queues', summary.concurrency);
 
             if (summary.inputSummary.error) {
