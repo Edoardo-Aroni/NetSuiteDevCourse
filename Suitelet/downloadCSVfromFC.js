@@ -2,8 +2,8 @@
  * @NApiVersion 2.x
  * @NScriptType Suitelet
  */
-define(['N/file', 'N/ui/serverWidget', 'N/record', 'N/search'],
-    function(file, serverWidget, record, search) {
+define(['N/file', 'N/ui/serverWidget', 'N/search'],
+    function(file, serverWidget, search) {
 
         function onRequest(context) {
             if (context.request.method === 'GET') {
@@ -11,8 +11,8 @@ define(['N/file', 'N/ui/serverWidget', 'N/record', 'N/search'],
                     title: 'Download CSV File'
                 });
 
-                // Folder internal ID (replace with your folder's internal ID)
-                var folderId = 213; // Example folder ID
+               
+                var folderId = 213; //folder ID
                 
                 // Create a dropdown field to list CSV files
                 var fileField = form.addField({
@@ -28,7 +28,7 @@ define(['N/file', 'N/ui/serverWidget', 'N/record', 'N/search'],
 
                 // Search for CSV files in the specified folder
                 var fileSearch = search.create({
-                    type: search.Type.FOLDER,
+                    type: 'file', // Set to 'file' as a string
                     filters: [
                         ['folder', 'is', folderId],
                         'AND',
